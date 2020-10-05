@@ -1,5 +1,6 @@
 # Swarm Robotic Platform
-### Josh Cohen
+### Repo Copied from Josh Cohen
+#### Edited By Scott Odland Karalyn Baird
 
 ## Intro
 With the goal of making decentralized, equitable, and sustainable systems, swarm robotic systems seem like a promising framework. Inspired by the success of the open source hardware community over the past 10 years and works like the [swarmbot: Jasmine](http://www.swarmrobot.org/), I hope to attempt to design my own low cost platform that can help propel swarm robotics into the real world. 
