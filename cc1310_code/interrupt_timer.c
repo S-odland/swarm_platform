@@ -47,6 +47,8 @@ void pack_and_transmit()
  */
 
 static uint32_t adc_vals[8];
+//static char buffer[60];
+
 void main_loop()
 {
     TimerIntClear(GPT1_BASE, TIMER_TIMB_TIMEOUT);
@@ -56,7 +58,7 @@ void main_loop()
     ReadIR(adc_vals);
 
     //ODD IS LEFT
-//          sprintf(buffer,"%u, %u, %u, %u, %u, %u\r\n", adc_vals[5], adc_vals[3], adc_vals[1],
+//    sprintf(buffer,"%u, %u, %u, %u, %u, %u\r\n", adc_vals[5], adc_vals[3], adc_vals[1],
 //                            adc_vals[0], adc_vals[2], adc_vals[4]);
 //          WriteUART0(buffer);
     float IR_val = read_line(adc_vals);
