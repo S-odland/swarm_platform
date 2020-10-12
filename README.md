@@ -28,3 +28,12 @@ This is the [micro-conrtoller](http://www.ti.com/product/CC1310) we are using du
 	documentation relating to the Zumo, CC1310, and other components in this design
 * eagle_files
 	all PCB related documents
+
+## Work from Karalyn and Scott
+*  Successfully printed IR values to PuTTY
+*  Found three new 'colors' that can be easily and consistently distinguished from eachother:
+	*  Top reflective mirror (left 1)
+	*  Back reflective mirror (middle 3)
+	*  Light matte grey material (right 2)
+*  IR values in pictures folder
+
