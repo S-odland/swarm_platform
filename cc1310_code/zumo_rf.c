@@ -179,8 +179,8 @@ void rf_main()
     //if the idle_count is greater than halg the delta and you have heard from someone chirp //TODO: this is wrong
     if ((idle_count > (delta_message_time/2 + rando_wait)) && (heard_since_last == 1))
     {
-        sprintf(buffer,"broadcasting at %u", idle_count);
-        WriteUART0(buffer);
+        //sprintf(buffer,"broadcasting at %u", idle_count);
+        //WriteUART0(buffer);
 
         RF_runImmediateCmd(rfHandle, (uint32_t*)&triggerCmd); //kill our listen
         RF_postCmd(rfHandle, (RF_Op*)&RF_cmdPropTx, RF_PriorityNormal,
@@ -282,15 +282,15 @@ void RX_callback(RF_Handle h, RF_CmdHandle ch, RF_EventMask e)
         packetDataPointer = (uint8_t *)(&(currentDataEntry->data) + 1);
         RFQueue_nextEntry();
 
-        sprintf(buffer, "seq: %d\r\n",((*(packetDataPointer) << 8) | *(packetDataPointer + 1)));
-        WriteUART0(buffer);
+        //sprintf(buffer, "seq: %d\r\n",((*(packetDataPointer) << 8) | *(packetDataPointer + 1)));
+        //WriteUART0(buffer);
 //        WriteUART0((char *) (packetDataPointer + 2));
 
 //        sprintf(buffer, "delta time: %u\r\n", delta_message_time);
 //        WriteUART0(buffer);
         uint32_t info = (*(packetDataPointer + 2) << 24) | (*(packetDataPointer + 3) << 16) | (*(packetDataPointer + 4) << 8) | (*(packetDataPointer + 5));
-        sprintf(buffer, "info: %X\r\n", info);
-        WriteUART0(buffer);
+        //sprintf(buffer, "info: %X\r\n", info);
+        //WriteUART0(buffer);
         evaluate_packet(info);
         //on successful rx set resp flag high
         idle_count = 0;

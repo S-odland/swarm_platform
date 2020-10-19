@@ -29,6 +29,18 @@ void detect_xc(uint32_t * vals)
     return;
 }
 
+void detect_black_target(uint32_t * vals)
+{
+    //    check for all black target
+    if (vals[0] > graphite.high_bound && vals[1] > graphite.high_bound && vals[2] > graphite.high_bound && vals[3] > graphite.high_bound
+            && vals[4] > graphite.high_bound && vals[5] > graphite.high_bound && (get_xc_state()== 0b0100 || get_xc_state() == 0b0010))
+    {
+        set_target_flag(1);
+        GPIO_toggleDio(IOID_15);
+    }
+    return;
+}
+
 void detect_poi(uint32_t * vals)
 {
     graphite.left_accum = 0;

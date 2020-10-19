@@ -43,6 +43,7 @@ struct ColorTrack {
 
 void detect_xc(uint32_t * vals);
 void detect_poi(uint32_t * vals);
+void detect_black_target(uint32_t * vals);
 struct ColorTrack * get_color(uint8_t color);
 void reinit_stash_and_accum();
 
