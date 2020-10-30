@@ -108,8 +108,8 @@ void detect_poi(uint32_t * vals)
         {
             set_target_flag(1);
             GPIO_toggleDio(IOID_15);
-            sprintf(buffer,"yeehaw");
-            WriteUART0(buffer);
+//            sprintf(buffer,"yeehaw");
+//            WriteUART0(buffer);
         }
     return;
 }
