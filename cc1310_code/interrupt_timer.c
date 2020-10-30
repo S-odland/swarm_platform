@@ -65,7 +65,8 @@ void main_loop()
 //          sprintf(buffer, "DIST VAL: %f\r\n", Dist_val);
 //          WriteUART0(buffer);
     drive_line(IR_val, forDisVal, sideDisVal, adc_vals);
-    detect_poi(adc_vals);
+    //detect_poi(adc_vals);
+    detect_black_target(adc_vals);
     detect_xc(adc_vals);
     inc_state();
     manage_intersection();
