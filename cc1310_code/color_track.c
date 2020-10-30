@@ -29,6 +29,21 @@ void detect_xc(uint32_t * vals)
     return;
 }
 
+//void detect_poi(uint32_t * vals)
+//{
+//    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
+//            && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound))
+//    {
+//        set_target_flag(1);
+//        GPIO_toggleDio(IOID_15);
+//        sprintf(buffer,"%u\r\n", vals[0]);
+//        WriteUART0(buffer);
+//    }
+//    return;
+//}
+
+// && (get_xc_state()== 0b0100 || get_xc_state() == 0b0010)
+
 void detect_poi(uint32_t * vals)
 {
     graphite.left_accum = 0;
@@ -81,13 +96,21 @@ void detect_poi(uint32_t * vals)
 //    sprintf(buffer, "%u\r\n", graphite.left_prev_vals_ave + graphite.right_prev_vals_ave);
 //    WriteUART0(buffer);
 //    WriteRF(buffer);
-    if (graphite.left_prev_vals_ave + graphite.right_prev_vals_ave > 27
-//            && !get_detect_flag()
-            && (get_xc_state()== 0b0100 || get_xc_state() == 0b0010))
-    {
-        set_target_flag(1);
-        GPIO_toggleDio(IOID_15);
-    }
+//    if (graphite.left_prev_vals_ave + graphite.right_prev_vals_ave > 27
+////            && !get_detect_flag()
+//            && (get_xc_state()== 0b0100 || get_xc_state() == 0b0010))
+//    {
+//        set_target_flag(1);
+//        GPIO_toggleDio(IOID_15);
+//    }
+    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
+                && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound))
+        {
+            set_target_flag(1);
+            GPIO_toggleDio(IOID_15);
+            sprintf(buffer,"yeehaw");
+            WriteUART0(buffer);
+        }
     return;
 }
 
