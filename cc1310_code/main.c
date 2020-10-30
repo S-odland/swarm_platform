@@ -52,7 +52,7 @@ uint8_t pol_lookup()
         pol = 2;
         break;
     case 0xC683:
-        pol = 2;
+        pol = 1;
         break;
     case 0x20CE:
         pol = 3;
