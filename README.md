@@ -36,4 +36,5 @@ This is the [micro-conrtoller](http://www.ti.com/product/CC1310) we are using du
 	*  Back reflective mirror (middle 3)
 	*  Light matte grey material (right 2)
 *  IR values in pictures folder
+*  Target detection optimized to include different combos of black lines read by different sensors to create different targets - can be used to mimic a 'moving' target
 
