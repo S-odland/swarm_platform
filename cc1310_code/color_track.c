@@ -44,7 +44,7 @@ void detect_xc(uint32_t * vals)
 
 // && (get_xc_state()== 0b0100 || get_xc_state() == 0b0010)
 
-void detect_poi(uint32_t * vals)
+void detect_poi(uint32_t * vals, int choice)
 {
     graphite.left_accum = 0;
     graphite.left_stash_val = 0;
@@ -103,14 +103,56 @@ void detect_poi(uint32_t * vals)
 //        set_target_flag(1);
 //        GPIO_toggleDio(IOID_15);
 //    }
+
+    // In the case of moving target:
+    // choice input 1: all black
+    // choice input 2: left black
+    // choice input 3: right black
+
+    if (choice == 1){
+        detect_all_black_target(vals);
+    } else if (choice == 2){
+        detect_left_black_target(vals);
+    } else if (choice == 3){
+        detect_right_black_target(vals);
+    }
+
+    return;
+}
+
+void detect_all_black_target(uint32_t * vals){
+
     if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
                 && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound))
         {
             set_target_flag(1);
             GPIO_toggleDio(IOID_15);
-//            sprintf(buffer,"yeehaw");
-//            WriteUART0(buffer);
+            sprintf(buffer,"yeehaw all black targets");
+            WriteUART0(buffer);
         }
-    return;
+
 }
 
+void detect_left_black_target(uint32_t * vals){
+
+    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
+                && vals[3] > (graphite.high_bound) && vals[4] < 500 && vals[5] > (graphite.high_bound))
+        {
+            set_target_flag(1);
+            GPIO_toggleDio(IOID_15);
+            sprintf(buffer,"yeehaw left black targets");
+            WriteUART0(buffer);
+        }
+
+}
+void detect_right_black_target(uint32_t * vals){
+
+    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
+                && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] < 500)
+        {
+            set_target_flag(1);
+            GPIO_toggleDio(IOID_15);
+            sprintf(buffer,"yeehaw right black targets");
+            WriteUART0(buffer);
+        }
+}

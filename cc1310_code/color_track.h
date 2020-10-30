@@ -42,9 +42,13 @@ struct ColorTrack {
 };
 
 void detect_xc(uint32_t * vals);
-void detect_poi(uint32_t * vals);
-void detect_black_target(uint32_t * vals);
+void detect_poi(uint32_t * vals, int choice);
 struct ColorTrack * get_color(uint8_t color);
 void reinit_stash_and_accum();
+
+// different target detections to be called within detect_poi()
+void detect_all_black_target(uint32_t * vals);
+void detect_left_black_target(uint32_t * vals);
+void detect_right_black_target(uint32_t * vals);
 
 #endif /* COLOR_TRACK_H_ */
