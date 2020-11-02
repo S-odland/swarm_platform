@@ -48,9 +48,10 @@ void pack_and_transmit()
 
 static uint32_t adc_vals[8];
 // choice1 is for all black targets, choice2 is for left black targets and choice3 is for right black targets
-int choice1 = 1;
-int choice2 = 2;
-int choice3 = 3;
+int allBlack = 1;
+int leftBlack = 2;
+int rightBlack = 3;
+
 void main_loop()
 {
     TimerIntClear(GPT1_BASE, TIMER_TIMB_TIMEOUT);
@@ -70,7 +71,7 @@ void main_loop()
 //          WriteUART0(buffer);
     drive_line(IR_val, forDisVal, sideDisVal, adc_vals);
     // choice is for target detection selection
-    detect_poi(adc_vals,choice3);
+    detect_poi(adc_vals,allBlack);
     detect_xc(adc_vals);
     inc_state();
     manage_intersection();
