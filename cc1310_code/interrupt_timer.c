@@ -47,6 +47,7 @@ void pack_and_transmit()
  */
 
 static uint32_t adc_vals[8];
+// choice1 is for all black targets, choice2 is for left black targets and choice3 is for right black targets
 int choice1 = 1;
 int choice2 = 2;
 int choice3 = 3;
