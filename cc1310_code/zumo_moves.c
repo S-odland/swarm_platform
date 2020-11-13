@@ -172,8 +172,8 @@ void openloop_turn()
         if (counter > offset_time)
         {
 //            WriteUART0("ACTUATING\r\n");
-            sprintf(buffer, "dir: %u\r\n", dir);
-            WriteUART0(buffer);
+//            sprintf(buffer, "dir: %u\r\n", dir);
+//            WriteUART0(buffer);
             rotate(dir);
         }
         else

@@ -35,8 +35,8 @@ void calibrate_line(int num_samps)
         line_calib[j] = line_calib[j]/(float)num_samps;
     }
 
-    sprintf(buffer, "calib: %u, %u, %u, %u, %u, %u\r\n", line_calib[5], line_calib[3], line_calib[1], line_calib[0], line_calib[2], line_calib[4]);
-    WriteUART0(buffer);
+//    sprintf(buffer, "calib: %u, %u, %u, %u, %u, %u\r\n", line_calib[5], line_calib[3], line_calib[1], line_calib[0], line_calib[2], line_calib[4]);
+//    WriteUART0(buffer);
 //    while(1);
 }
 

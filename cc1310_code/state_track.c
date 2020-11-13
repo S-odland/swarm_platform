@@ -98,9 +98,9 @@ void inc_state()
         ret = (((xcs & (0b1 << (state_track.bb - 2)))) >> (state_track.bb - 2)) ^ ret;
 
 
-        sprintf(buffer, "xcs: %X, prev: %X, bb: %X, ret: %X\r\n",
-                xcs, prev_xcs, state_track.bb, state_track.ret);
-        WriteUART0(buffer);
+//        sprintf(buffer, "xcs: %X, prev: %X, bb: %X, ret: %X\r\n",
+//                xcs, prev_xcs, state_track.bb, state_track.ret);
+//        WriteUART0(buffer);
         //Deals with switching between branches of different bb
         if (xcs < prev_xcs)
         {

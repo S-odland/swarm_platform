@@ -106,12 +106,13 @@ void evaluate_command(uint32_t packet)
         val = (packet & START_BIT_MASK);
         WriteUART0("gotta dinger\r\n");
         set_enable_flag(val);
-        GPIO_toggleDio(CC1310_LAUNCHXL_PIN_GLED);
+        //GPIO_toggleDio(CC1310_LAUNCHXL_PIN_GLED);
         break;
     case NEW_POLICY_CMD:
         val = (packet & NEW_POLICY_MASK);
         set_new_policy(val); //might have to figure out how this fits in state machine
         set_new_policy_flag(1);
+        SetAndWritePinHigh(BLED0);
         break;
     default:
         WriteUART0("Command not implemented\r\n");

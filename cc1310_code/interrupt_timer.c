@@ -23,7 +23,7 @@
  * */
 void TimerInt()
 {
-    GPIO_toggleDio(CC1310_LAUNCHXL_PIN_GLED);
+    //GPIO_toggleDio(CC1310_LAUNCHXL_PIN_GLED);
     TimerIntClear(GPT1_BASE, TIMER_TIMB_TIMEOUT);
 }
 /**
@@ -76,7 +76,8 @@ void main_loop()
     inc_state();
     manage_intersection();
 
-    manage_leds();
+    //manage_leds();
+    //GPIO_toggleDio(BLED1);
     }
     else
     {

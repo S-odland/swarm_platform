@@ -8,6 +8,7 @@
 
 #include "color_track.h"
 #include "uart.h"
+#include "leds.h"
 //#include "zumo_rf.h"
 #define NUM_COLORS 3
 
@@ -126,7 +127,8 @@ void detect_all_black_target(uint32_t * vals){
                 && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound) && !get_intersection_flag())
         {
             set_target_flag(1);
-            GPIO_toggleDio(IOID_15);
+            //GPIO_toggleDio(IOID_15);
+            SetAndWritePinHigh(BLED2);
             sprintf(buffer,"yeehaw all black targets");
             WriteUART0(buffer);
         }
@@ -139,7 +141,7 @@ void detect_left_black_target(uint32_t * vals){
                 && vals[3] > (graphite.high_bound) && vals[4] < 500 && vals[5] > (graphite.high_bound) && !get_intersection_flag())
         {
             set_target_flag(1);
-            GPIO_toggleDio(IOID_15);
+            //GPIO_toggleDio(IOID_15);
             sprintf(buffer,"yeehaw left black targets");
             WriteUART0(buffer);
         }
@@ -151,7 +153,7 @@ void detect_right_black_target(uint32_t * vals){
                 && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] < 500 && !get_intersection_flag())
         {
             set_target_flag(1);
-            GPIO_toggleDio(IOID_15);
+            //GPIO_toggleDio(IOID_15);
             sprintf(buffer,"yeehaw right black targets");
             WriteUART0(buffer);
         }

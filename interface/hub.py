@@ -32,7 +32,7 @@ class UI(QWidget):
 		self.setLayout(grid)
 
 		#data handler stuff
-		self.data_sock = data_in(5)
+		self.data_sock = data_in(6)
 		print("open")
 		label = QLabel("Swarm Control GUI")
 		header = QHBoxLayout()
