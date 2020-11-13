@@ -13,7 +13,7 @@
 
 static struct ColorTrack graphite = {.low_bound = GREY_LOW, .high_bound = GREY_HIGH, .detect_thresh = 6};
 
-static struct ColorTrack purp = {.low_bound = PURP_LOW, .high_bound = PURP_HIGH, .detect_thresh = 1};
+//static struct ColorTrack purp = {.low_bound = PURP_LOW, .high_bound = PURP_HIGH, .detect_thresh = 1};
 
 
 char buffer[50];
@@ -123,7 +123,7 @@ void detect_poi(uint32_t * vals, int choice)
 void detect_all_black_target(uint32_t * vals){
 
     if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
-                && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound))
+                && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound) && !get_intersection_flag())
         {
             set_target_flag(1);
             GPIO_toggleDio(IOID_15);
@@ -136,7 +136,7 @@ void detect_all_black_target(uint32_t * vals){
 void detect_left_black_target(uint32_t * vals){
 
     if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
-                && vals[3] > (graphite.high_bound) && vals[4] < 500 && vals[5] > (graphite.high_bound))
+                && vals[3] > (graphite.high_bound) && vals[4] < 500 && vals[5] > (graphite.high_bound) && !get_intersection_flag())
         {
             set_target_flag(1);
             GPIO_toggleDio(IOID_15);
@@ -148,7 +148,7 @@ void detect_left_black_target(uint32_t * vals){
 void detect_right_black_target(uint32_t * vals){
 
     if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
-                && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] < 500)
+                && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] < 500 && !get_intersection_flag())
         {
             set_target_flag(1);
             GPIO_toggleDio(IOID_15);

@@ -40,6 +40,7 @@
 #define LED_Sense IOID_18 //connected to pin 2 on zum (with jumper on IR breakout set there) //
 
 #define MOTOR_ON 200//seems like we need to limit based on bat
+#define S_LINE 185 // motor value for straight line driving
 #define MOTOR_TURN 275
 #define MOTOR_OFF 0
 //#define MOTOR_TURN 64//64

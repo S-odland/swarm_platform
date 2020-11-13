@@ -201,13 +201,16 @@ void drive_line(float cent_val, uint16_t for_dist_val, uint16_t side_dist_val, u
     float rhs = speed_delim * MOTOR_ON + (e * MOTOR_ON/2.0) + MOTOR_ON/2.0;
     float lhs = speed_delim * MOTOR_ON - (e * MOTOR_ON/2.0) + MOTOR_ON/2.0;
 
+    // uses the MOTOR_ON value for error driving so that lhs and rhs don't get too small
+    // S_LINE is the motor value for straight line driving -- minimizes traffic buildup
+
     if (lhs < MOTOR_ON)
     {
         setMotor(M2, 0, lhs);
     }
     else
     {
-        setMotor(M2, 0, MOTOR_ON);
+        setMotor(M2, 0, S_LINE);
     }
 
     if (rhs < MOTOR_ON)
@@ -216,7 +219,7 @@ void drive_line(float cent_val, uint16_t for_dist_val, uint16_t side_dist_val, u
     }
     else
     {
-        setMotor(M1, 0, MOTOR_ON);
+        setMotor(M1, 0, S_LINE);
     }
 
 //              sprintf(buffer, "%u %u\r\n", for_dist_val, side_dist_val);
