@@ -49,5 +49,4 @@ float read_line(uint32_t * vals);
 void drive_line(float cent_val, uint16_t for_dist_val, uint16_t side_dist_val, uint32_t * vals);
 void calibrate_line(int num_samps);
 
-
 #endif /* ZUMO_H_ */

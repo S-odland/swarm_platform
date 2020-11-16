@@ -124,6 +124,7 @@ void inc_state()
         //set_intersection_flag(0); //going to set this low when managed by manage_intersection()
         set_detect_flag(0);
         set_on_line_flag(0);
+        GPIO_writeDio(BLED0,0);
     }
 
 

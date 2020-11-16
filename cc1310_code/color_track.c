@@ -26,6 +26,7 @@ void detect_xc(uint32_t * vals)
     {
 //        GPIO_toggleDio(BLED1);
         set_intersection_flag(1);
+        GPIO_writeDio(BLED1,1);
     }
     return;
 }
@@ -85,6 +86,7 @@ void detect_poi(uint32_t * vals, int choice)
         if (graphite.left_prev_vals_ave + graphite.right_prev_vals_ave > graphite.detect_thresh)
         {
             set_detect_flag(1);
+            GPIO_writeDio(BLED0,1);
 //            GPIO_toggleDio(BLED0);
             for (i = 0; i < NUM_PREV_VALS; i++)
             {
@@ -122,13 +124,15 @@ void detect_poi(uint32_t * vals, int choice)
 }
 
 void detect_all_black_target(uint32_t * vals){
+    uint8_t xc_state = get_xc_state();
+    uint8_t prev_xc_state=  get_prev_xc_state();
 
     if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
-                && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound) && !get_intersection_flag())
+                && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound) && xc_state == prev_xc_state)
         {
             set_target_flag(1);
             //GPIO_toggleDio(IOID_15);
-            SetAndWritePinHigh(BLED2);
+            SetAndWritePinHigh(BLED3);
             sprintf(buffer,"yeehaw all black targets");
             WriteUART0(buffer);
         }
@@ -142,6 +146,7 @@ void detect_left_black_target(uint32_t * vals){
         {
             set_target_flag(1);
             //GPIO_toggleDio(IOID_15);
+            SetAndWritePinHigh(BLED3);
             sprintf(buffer,"yeehaw left black targets");
             WriteUART0(buffer);
         }
@@ -154,6 +159,7 @@ void detect_right_black_target(uint32_t * vals){
         {
             set_target_flag(1);
             //GPIO_toggleDio(IOID_15);
+            SetAndWritePinHigh(BLED3);
             sprintf(buffer,"yeehaw right black targets");
             WriteUART0(buffer);
         }
