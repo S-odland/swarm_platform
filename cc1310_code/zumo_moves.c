@@ -56,7 +56,7 @@ void init_openloop(void)
 
 void end_openloop(void)
 {
-    GPIO_toggleDio(BLED0);
+    //GPIO_toggleDio(BLED0);
     state = 0;
 }
 
@@ -229,6 +229,6 @@ void manage_intersection()
 
     set_prev_xc_state(xc_state);
     set_intersection_flag(0);
-    GPIO_writeDio(BLED1,0);
+    //GPIO_writeDio(BLED1,0);
     return;
 }

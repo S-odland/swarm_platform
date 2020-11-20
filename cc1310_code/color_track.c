@@ -26,7 +26,7 @@ void detect_xc(uint32_t * vals)
     {
 //        GPIO_toggleDio(BLED1);
         set_intersection_flag(1);
-        GPIO_writeDio(BLED1,1);
+        //GPIO_writeDio(BLED1,1);
     }
     return;
 }
@@ -132,7 +132,7 @@ void detect_all_black_target(uint32_t * vals){
         {
             set_target_flag(1);
             //GPIO_toggleDio(IOID_15);
-            SetAndWritePinHigh(BLED3);
+            //SetAndWritePinHigh(BLED3);
             sprintf(buffer,"yeehaw all black targets");
             WriteUART0(buffer);
         }
@@ -146,7 +146,7 @@ void detect_left_black_target(uint32_t * vals){
         {
             set_target_flag(1);
             //GPIO_toggleDio(IOID_15);
-            SetAndWritePinHigh(BLED3);
+            //SetAndWritePinHigh(BLED3);
             sprintf(buffer,"yeehaw left black targets");
             WriteUART0(buffer);
         }
@@ -159,7 +159,7 @@ void detect_right_black_target(uint32_t * vals){
         {
             set_target_flag(1);
             //GPIO_toggleDio(IOID_15);
-            SetAndWritePinHigh(BLED3);
+           // SetAndWritePinHigh(BLED3);
             sprintf(buffer,"yeehaw right black targets");
             WriteUART0(buffer);
         }
