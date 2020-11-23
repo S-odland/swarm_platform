@@ -229,6 +229,6 @@ void manage_intersection()
 
     set_prev_xc_state(xc_state);
     set_intersection_flag(0);
-    //GPIO_writeDio(BLED1,0);
+    GPIO_writeDio(BLED1,0);
     return;
 }
