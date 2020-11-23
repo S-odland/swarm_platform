@@ -51,6 +51,7 @@ static uint32_t adc_vals[8];
 int allBlack = 1;
 int leftBlack = 2;
 int rightBlack = 3;
+int mirrormode = 4; // MODE AND VALUES
 
 void main_loop()
 {
@@ -71,7 +72,7 @@ void main_loop()
 //          WriteUART0(buffer);
     drive_line(IR_val, forDisVal, sideDisVal, adc_vals);
     // choice is for target detection selection
-    detect_poi(adc_vals,allBlack);
+    detect_poi(adc_vals,mirrormode); // TARGET DETECTION CONFIGURATION
     detect_xc(adc_vals);
     inc_state();
     manage_intersection();
