@@ -14,6 +14,8 @@
 
 static struct ColorTrack graphite = {.low_bound = GREY_LOW, .high_bound = GREY_HIGH, .detect_thresh = 6};
 
+static struct ColorTrack white = {.low_bound = WHITE_LOW, .high_bound = WHITE_HIGH, .detect_thresh = 0};
+
 //static struct ColorTrack purp = {.low_bound = PURP_LOW, .high_bound = PURP_HIGH, .detect_thresh = 1};
 
 
@@ -21,8 +23,8 @@ char buffer[50];
 void detect_xc(uint32_t * vals)
 {
 //    //check for white traingle
-    if (vals[0] < 500 && vals[1] < 500 && vals[2] < 500 && vals[3] < 500
-            && vals[4] < 500 && vals[5] < 500)
+    if (vals[0] < (white.high_bound) && vals[1] < (white.high_bound) && vals[2] < (white.high_bound) && vals[3] < (white.high_bound)
+            && vals[4] < (white.high_bound) && vals[5] < (white.high_bound))
     {
 //        GPIO_toggleDio(BLED1);
         set_intersection_flag(1);
@@ -118,6 +120,8 @@ void detect_poi(uint32_t * vals, int choice)
         detect_left_black_target(vals);
     } else if (choice == 3){
         detect_right_black_target(vals);
+    } else if (choice == 4){
+        detect_all_mirror_target(vals);
     }
 
     return;
@@ -132,7 +136,7 @@ void detect_all_black_target(uint32_t * vals){
         {
             set_target_flag(1);
             //GPIO_toggleDio(IOID_15);
-            SetAndWritePinHigh(BLED3);
+            GPIO_writeDio(BLED2,1);
             sprintf(buffer,"yeehaw all black targets");
             WriteUART0(buffer);
         }
@@ -146,7 +150,7 @@ void detect_left_black_target(uint32_t * vals){
         {
             set_target_flag(1);
             //GPIO_toggleDio(IOID_15);
-            SetAndWritePinHigh(BLED3);
+            GPIO_writeDio(BLED2,1);
             sprintf(buffer,"yeehaw left black targets");
             WriteUART0(buffer);
         }
@@ -159,8 +163,22 @@ void detect_right_black_target(uint32_t * vals){
         {
             set_target_flag(1);
             //GPIO_toggleDio(IOID_15);
-            SetAndWritePinHigh(BLED3);
+            GPIO_writeDio(BLED2,1);
             sprintf(buffer,"yeehaw right black targets");
+            WriteUART0(buffer);
+        }
+}
+
+void detect_all_mirror_target(uint32_t * vals){
+
+//    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound)
+//            && vals[4] < (REFLECTIVE_VAL) && vals[5] < (REFLECTIVE_VAL) && !get_intersection_flag())
+    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound)
+            && (((vals[4] + vals[5]) / 2) < REFLECTIVE_VAL))
+        {
+            set_target_flag(1);
+            GPIO_toggleDio(IOID_15);
+            sprintf(buffer,"%u\r\n", ((vals[5] + vals[4]) / 2));
             WriteUART0(buffer);
         }
 }

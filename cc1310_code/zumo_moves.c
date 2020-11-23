@@ -56,7 +56,7 @@ void init_openloop(void)
 
 void end_openloop(void)
 {
-    GPIO_toggleDio(BLED0);
+    //GPIO_toggleDio(BLED0);
     state = 0;
 }
 

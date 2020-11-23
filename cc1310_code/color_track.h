@@ -18,6 +18,11 @@
 #define GREY_LOW 470
 #define GREY_HIGH 750
 
+#define WHITE_LOW 200
+#define WHITE_HIGH 500
+
+#define REFLECTIVE_VAL 207
+
 
 #define NUM_PREV_VALS 10
 struct ColorTrack {
@@ -50,5 +55,6 @@ void reinit_stash_and_accum();
 void detect_all_black_target(uint32_t * vals);
 void detect_left_black_target(uint32_t * vals);
 void detect_right_black_target(uint32_t * vals);
+void detect_all_mirror_target(uint32_t * vals);
 
 #endif /* COLOR_TRACK_H_ */
