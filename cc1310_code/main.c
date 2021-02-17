@@ -43,31 +43,46 @@ uint8_t pol_lookup()
     switch(mach_id)
     {
     case 0xC464:
-        pol = 0;
-        break;
-    case 0xC219:
-        pol = 0;
-        break;
-    case 0xA171:
-        pol = 2; // outer left loop
-        break;
-    case 0xC683:
-        pol = 1;
-        break;
-    case 0x20CE:
-        pol = 3;
-        break;
-    case 0xB5A8:
-        pol = 3; // inner right loop
-        break;
-    case 0xC262:
-        pol = 1;
-        break;
-    case 0xA3EB:
-        pol = 1; // outer right loop
+        pol = 7; // inner left loop
         break;
     case 0xC718:
-        pol = 0; // inner left loop
+        pol = 26;
+        break;
+    case 0xA3CE: // NEW BOT
+        pol = 17;
+        break;
+    case 0xC219:
+        pol = 24; // outer right loop
+        break;
+    case 0xC683:
+        pol = 21;
+        break;
+    case 0x20CE:
+        pol = 16; // inner right loop
+        break;
+    case 0xC262:
+        pol = 4;
+        break;
+    case 0xA171:
+        pol = 7; // outer left loop
+        break;
+    case 0xA3EB: // currently with Scott
+        pol = 1;
+        break;
+    case 0xB5A8: // currently with Scott
+        pol = 3;
+        break;
+    case 0xA619: // NEW BOT
+        pol = 7;
+        break;
+    case 0xA152: // NEW BOT
+        pol = 3;
+        break;
+    case 0xC042: // NEW BOT
+        pol = 10;
+        break;
+    case 0x2394: // NEW BOT
+        pol = 21;
         break;
     default:
         sprintf(buffer, "no match for %X\r\n", mach_id);
@@ -112,8 +127,9 @@ int main(void)
     delay(1);
 
     //IF WE WANT RAND POLICY
-//    set_policy(get_random_num(4));
+//    set_policy(get_random_num(32));
 
+    //IF WE WANT A SPECIFIC POLICY
     set_policy(pol_lookup());
 
 //    sprintf(buffer, "rand: %u\r\n" ,get_policy());
@@ -132,17 +148,18 @@ int main(void)
      * State Track Initialization for Circulatory Map
      * exclusively comment this in for state machine
      * to be in circulatory map configuration
+     *
      * */
-//    uint8_t bbs[2] = {3,4};
-//    init_state(0b1100, 2, bbs, 4, 1, 0, 0x7);
+    uint8_t bbs[2] = {3,4};
+    init_state(0b1100, 2, bbs, 4, 1, 0, 0x7);
 
     /*
      * State Track Initialization for 5 node map
      * exclusively comment this in for state machine
      * to be in 5 node map configuration
      * */
-      uint8_t bbs[1] = {3};
-      init_state(0b110, 1, bbs, 3, 0, 0, 0x3);
+//      uint8_t bbs[1] = {3};
+//      init_state(0b110, 1, bbs, 3, 0, 0, 0x3);
 
       //Enable timer based interrupts:
       //    GPT1A - Openloop motor control
@@ -163,6 +180,8 @@ int main(void)
 ////          WriteRF(adc_vals);
                     sprintf(buffer,"%u, %u, %u, %u, %u, %u\r\n", adc_vals[5], adc_vals[3], adc_vals[1],
                                       adc_vals[0], adc_vals[2], adc_vals[4]);
+//                    sprintf(buffer, "%u\r\n", get_random_num(32));
+//                    sprintf(buffer, "%u\r\n", get_policy());
                     WriteUART0(buffer);
 
 
@@ -171,7 +190,4 @@ int main(void)
 //          GPIO_toggleDio(CC1310_LAUNCHXL_PIN_GLED);
 //          read_imu();
       }
-
-
-	return 0;
 }
