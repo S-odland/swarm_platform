@@ -223,12 +223,11 @@ void manage_intersection()
 //    WriteUART0(buffer);
     if (xc_state != prev_xc_state)
     {
-        //GPIO_toggleDio(BLED3);
+        GPIO_toggleDio(BLED3);
         init_openloop();
     }
 
     set_prev_xc_state(xc_state);
     set_intersection_flag(0);
-    GPIO_writeDio(BLED1,0);
     return;
 }
