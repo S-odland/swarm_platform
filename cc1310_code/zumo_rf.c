@@ -71,16 +71,16 @@ uint8_t offset_lookup()
         uniq_offset = 29;
         break;
     case 0xA619:        // NEW BOT
-        uniq_offset = 29;
+        uniq_offset = 30;
         break;
     case 0xA152:        // NEW BOT
-        uniq_offset = 29;
+        uniq_offset = 31;
         break;
     case 0xC042:        // NEW BOT
-        uniq_offset = 29;
+        uniq_offset = 32;
         break;
     case 0x2394:        // NEW BOT
-        uniq_offset = 29;
+        uniq_offset = 33;
         break;
     default:
         sprintf(buffer, "no match for %X\r\n", mach_id);
