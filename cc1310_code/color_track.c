@@ -178,9 +178,7 @@ void detect_all_mirror_target(uint32_t * vals){
     if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && ((vals[4]) < REFLECTIVE_VAL))
 
 
-        {
             //delay(0.5);
-            ;
 
             if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && ((vals[4]) < REFLECTIVE_VAL))
 
@@ -192,7 +190,6 @@ void detect_all_mirror_target(uint32_t * vals){
                         sprintf(buffer,"%u\r\n", ((vals[5] + vals[4]) / 2));
                         WriteUART0(buffer);
                     }
-
 
         }
 
