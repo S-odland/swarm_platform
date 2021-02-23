@@ -41,7 +41,7 @@
 
 #define MOTOR_ON 120//seems like we need to limit based on bat (og 200, 160 good for 4 path)
 #define S_LINE 185 // motor value for straight line driving (og 185, 160 good for 4 path)
-#define MOTOR_TURN 225 // (og 275--)
+#define MOTOR_TURN 185 // (og 275--)
 #define MOTOR_OFF 0
 //#define MOTOR_TURN 64//64
 
