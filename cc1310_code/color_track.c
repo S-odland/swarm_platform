@@ -12,7 +12,7 @@
 //#include "zumo_rf.h"
 #define NUM_COLORS 3
 
-static struct ColorTrack graphite = {.low_bound = GREY_LOW, .high_bound = GREY_HIGH, .detect_thresh = 6};
+static struct ColorTrack graphite = {.low_bound = GREY_LOW, .high_bound = GREY_HIGH, .detect_thresh = 14}; // changed detect_thresh OG: 6, tried 18
 
 static struct ColorTrack white = {.low_bound = WHITE_LOW, .high_bound = WHITE_HIGH, .detect_thresh = 0};
 
@@ -26,9 +26,8 @@ void detect_xc(uint32_t * vals)
     if (vals[0] < (white.high_bound) && vals[1] < (white.high_bound) && vals[2] < (white.high_bound) && vals[3] < (white.high_bound)
             && vals[4] < (white.high_bound) && vals[5] < (white.high_bound))
     {
-//        GPIO_toggleDio(BLED1);
+       // GPIO_toggleDio(BLED1);
         set_intersection_flag(1);
-        GPIO_writeDio(BLED1,1);
     }
     return;
 }
@@ -88,8 +87,7 @@ void detect_poi(uint32_t * vals, int choice)
         if (graphite.left_prev_vals_ave + graphite.right_prev_vals_ave > graphite.detect_thresh)
         {
             set_detect_flag(1);
-            GPIO_writeDio(BLED0,1);
-//            GPIO_toggleDio(BLED0);
+            //GPIO_toggleDio(BLED0);
             for (i = 0; i < NUM_PREV_VALS; i++)
             {
                 graphite.left_prev_vals[i] = 0;
@@ -101,7 +99,8 @@ void detect_poi(uint32_t * vals, int choice)
 //    sprintf(buffer, "%u\r\n", graphite.left_prev_vals_ave + graphite.right_prev_vals_ave);
 //    WriteUART0(buffer);
 //    WriteRF(buffer);
-//    if (graphite.left_prev_vals_ave + graphite.right_prev_vals_ave > 27
+//    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
+//            && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound)
 ////            && !get_detect_flag()
 //            && (get_xc_state()== 0b0100 || get_xc_state() == 0b0010))
 //    {
@@ -122,6 +121,8 @@ void detect_poi(uint32_t * vals, int choice)
         detect_right_black_target(vals);
     } else if (choice == 4){
         detect_all_mirror_target(vals);
+    } else {
+        ;
     }
 
     return;
@@ -132,7 +133,8 @@ void detect_all_black_target(uint32_t * vals){
     uint8_t prev_xc_state=  get_prev_xc_state();
 
     if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && vals[2] > (graphite.high_bound)
-                && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound) && xc_state == prev_xc_state)
+                && vals[3] > (graphite.high_bound) && vals[4] > (graphite.high_bound) && vals[5] > (graphite.high_bound)
+                && (get_xc_state()== 0b0100 || get_xc_state() == 0b0010))//&& xc_state == prev_xc_state)
         {
             set_target_flag(1);
             //GPIO_toggleDio(IOID_15);
@@ -173,12 +175,36 @@ void detect_all_mirror_target(uint32_t * vals){
 
 //    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound)
 //            && vals[4] < (REFLECTIVE_VAL) && vals[5] < (REFLECTIVE_VAL) && !get_intersection_flag())
-    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound)
-            && (((vals[4] + vals[5]) / 2) < REFLECTIVE_VAL))
-        {
-            set_target_flag(1);
-            GPIO_toggleDio(IOID_15);
-            sprintf(buffer,"%u\r\n", ((vals[5] + vals[4]) / 2));
-            WriteUART0(buffer);
+<<<<<<< HEAD
+    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && ((vals[4]) < REFLECTIVE_VAL))
+
+
+            //delay(0.5);
+=======
+>>>>>>> kirsense
+
+    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && ((vals[4]) < REFLECTIVE_VAL))
+
+<<<<<<< HEAD
+
+                {
+                        set_target_flag(1);
+                        //GPIO_toggleDio(IOID_15);
+                        GPIO_writeDio(BLED2,1);
+                        sprintf(buffer,"%u\r\n", ((vals[5] + vals[4]) / 2));
+                        WriteUART0(buffer);
+                    }
+
         }
+
+=======
+    {
+        set_target_flag(1);
+        //GPIO_toggleDio(IOID_15);
+        GPIO_writeDio(BLED2,1);
+        sprintf(buffer,"%u\r\n", ((vals[5] + vals[4]) / 2));
+        WriteUART0(buffer);
+    }
+
+>>>>>>> kirsense
 }
