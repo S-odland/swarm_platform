@@ -12,7 +12,7 @@
 //#include "zumo_rf.h"
 #define NUM_COLORS 3
 
-static struct ColorTrack graphite = {.low_bound = GREY_LOW, .high_bound = GREY_HIGH, .detect_thresh = 18}; // changed detect_thresh OG: 6
+static struct ColorTrack graphite = {.low_bound = GREY_LOW, .high_bound = GREY_HIGH, .detect_thresh = 14}; // changed detect_thresh OG: 6, tried 18
 
 static struct ColorTrack white = {.low_bound = WHITE_LOW, .high_bound = WHITE_HIGH, .detect_thresh = 0};
 
@@ -175,13 +175,17 @@ void detect_all_mirror_target(uint32_t * vals){
 
 //    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound)
 //            && vals[4] < (REFLECTIVE_VAL) && vals[5] < (REFLECTIVE_VAL) && !get_intersection_flag())
+<<<<<<< HEAD
     if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && ((vals[4]) < REFLECTIVE_VAL))
 
 
             //delay(0.5);
+=======
+>>>>>>> kirsense
 
-            if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && ((vals[4]) < REFLECTIVE_VAL))
+    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && ((vals[4]) < REFLECTIVE_VAL))
 
+<<<<<<< HEAD
 
                 {
                         set_target_flag(1);
@@ -193,4 +197,14 @@ void detect_all_mirror_target(uint32_t * vals){
 
         }
 
+=======
+    {
+        set_target_flag(1);
+        //GPIO_toggleDio(IOID_15);
+        GPIO_writeDio(BLED2,1);
+        sprintf(buffer,"%u\r\n", ((vals[5] + vals[4]) / 2));
+        WriteUART0(buffer);
+    }
+
+>>>>>>> kirsense
 }

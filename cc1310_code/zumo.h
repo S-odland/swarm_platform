@@ -39,9 +39,15 @@
 //WILL HAVE TO ENABLE THIS BEFORE USE in gpio.c
 #define LED_Sense IOID_18 //connected to pin 2 on zum (with jumper on IR breakout set there) //
 
+<<<<<<< HEAD
 #define MOTOR_ON 120//seems like we need to limit based on bat (og 200, 160 good for 4 path)
 #define S_LINE 185 // motor value for straight line driving (og 185, 160 good for 4 path)
 #define MOTOR_TURN 185 // (og 275--)
+=======
+#define MOTOR_ON 160//seems like we need to limit based on bat (og 200, 160 good for 4 path, tested 120)
+#define S_LINE 160 // motor value for straight line driving (og 185, 160 good for 4 path, tested 120)
+#define MOTOR_TURN 275 // (og 275--)
+>>>>>>> kirsense
 #define MOTOR_OFF 0
 //#define MOTOR_TURN 64//64
 

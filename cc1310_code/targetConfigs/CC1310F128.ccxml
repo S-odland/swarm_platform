@@ -14,10 +14,14 @@
             <property Type="choicelist" Value="1" id="Debug Probe Selection">
                 <choice Name="Select by serial number" value="0">
 
+<<<<<<< HEAD
 
 
                     <property Type="stringfield" Value="L2000LXP" id="-- Enter the serial number"/>
 
+=======
+                <property Type="stringfield" Value="L2000CGV" id="-- Enter the serial number"/>
+>>>>>>> kirsense
                 </choice>
             </property>
             <platform XML_version="1.2" id="platform_0">

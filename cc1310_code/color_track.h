@@ -24,7 +24,7 @@
 #define REFLECTIVE_VAL 180 //200 was too low
 
 
-#define NUM_PREV_VALS 20 // OG 10
+#define NUM_PREV_VALS 20 // OG 10, tried 20
 struct ColorTrack {
     char curr_state;
     char prev_state;
