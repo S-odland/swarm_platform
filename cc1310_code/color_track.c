@@ -12,7 +12,11 @@
 //#include "zumo_rf.h"
 #define NUM_COLORS 3
 
+<<<<<<< HEAD
 static struct ColorTrack graphite = {.low_bound = GREY_LOW, .high_bound = GREY_HIGH, .detect_thresh = 14}; // changed detect_thresh OG: 6, tried 18
+=======
+static struct ColorTrack graphite = {.low_bound = GREY_LOW, .high_bound = GREY_HIGH, .detect_thresh = 6};
+>>>>>>> parent of 9bb7082 (update 2/17)
 
 static struct ColorTrack white = {.low_bound = WHITE_LOW, .high_bound = WHITE_HIGH, .detect_thresh = 0};
 
