@@ -32,8 +32,12 @@ class UI(QWidget):
 		self.setLayout(grid)
 
 		#data handler stuff
+<<<<<<< HEAD
 		self.data_sock = data_in(21) ##############################	CURRENT COM PORT NUMBER ##################
 
+=======
+		self.data_sock = data_in(6) ##############################	CURRENT COM PORT NUMBER ##################
+>>>>>>> parent of 9bb7082 (update 2/17)
 		print("open")
 		label = QLabel("Swarm Control GUI")
 		header = QHBoxLayout()

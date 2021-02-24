@@ -175,6 +175,7 @@ void detect_all_mirror_target(uint32_t * vals){
 
 //    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound)
 //            && vals[4] < (REFLECTIVE_VAL) && vals[5] < (REFLECTIVE_VAL) && !get_intersection_flag())
+<<<<<<< HEAD
 
     if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound) && ((vals[4]) < REFLECTIVE_VAL))
 
@@ -188,5 +189,15 @@ void detect_all_mirror_target(uint32_t * vals){
                     }
 
 
+=======
+    if (vals[0] > (graphite.high_bound) && vals[1] > (graphite.high_bound)
+            && (((vals[4] + vals[5]) / 2) < REFLECTIVE_VAL))
+        {
+            set_target_flag(1);
+            GPIO_writeDio(BLED2,1);
+            sprintf(buffer,"%u\r\n", ((vals[5] + vals[4]) / 2));
+            WriteUART0(buffer);
+        }
+>>>>>>> parent of 9bb7082 (update 2/17)
 }
 
