@@ -15,6 +15,8 @@
 #include "leds.h"
 #include "dist_sense.h"
 
+static char buffer[60];
+
 /**
  * @breif Handy debug function for checking pin toggling on an oscilliscope
  *
@@ -62,9 +64,9 @@ void main_loop()
     ReadIR(adc_vals);
 
     //ODD IS LEFT
-//          sprintf(buffer,"%u, %u, %u, %u, %u, %u\r\n", adc_vals[5], adc_vals[3], adc_vals[1],
-//                            adc_vals[0], adc_vals[2], adc_vals[4]);
-//          WriteUART0(buffer);
+          sprintf(buffer,"%u, %u, %u, %u, %u, %u\r\n", adc_vals[5], adc_vals[3], adc_vals[1],
+                            adc_vals[0], adc_vals[2], adc_vals[4]);
+          WriteUART0(buffer);
     float IR_val = read_line(adc_vals);
     uint32_t forDisVal = ReadDistForward();
     uint32_t sideDisVal = ReadDist45();

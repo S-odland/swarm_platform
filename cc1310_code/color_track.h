@@ -21,6 +21,9 @@
 #define WHITE_LOW 200
 #define WHITE_HIGH 500
 
+#define MIRROR_LOW 0
+#define MIRROR_HIGH 180
+
 #define REFLECTIVE_VAL 180 //200 was too low
 
 

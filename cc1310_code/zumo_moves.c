@@ -51,7 +51,7 @@ void init_openloop(void)
     counter = 0;
     set_actuation_flag(1);
     set_actuation_pre_ret_flag(1);
-    WriteUART0("loop initialized\r\n");
+    WriteUART0("Open Loop Turn Initialized\r\n");
 }
 
 void end_openloop(void)

@@ -58,19 +58,19 @@ uint8_t pol_lookup()
         pol = 18;
         break;
     case 0x20CE:
-        pol = 0; // inner right loop
+        pol = 8; // inner right loop
         break;
     case 0xC262:
         pol = 9;
         break;
     case 0xA171:
-        pol = 0; // outer left loop
+        pol = 7; // outer left loop
         break;
     case 0xA3EB: // currently with Scott
         pol = 27;
         break;
     case 0xB5A8: // currently with Scott
-        pol = 0;
+        pol = 25;
         break;
     case 0xA619: // NEW BOT
         pol = 0;
@@ -79,7 +79,7 @@ uint8_t pol_lookup()
         pol = 0;
         break;
     case 0xC042: // NEW BOT
-        pol = 25;
+        pol = 4;
         break;
     case 0x2394: // NEW BOT
         pol = 0;
@@ -141,8 +141,8 @@ int main(void)
     setup_leds();
 
     //sets open loop control characteristics
-    set_on_time(400);
-    set_offset_time(500);
+    set_on_time(550); // OG 400
+    set_offset_time(500); // OG 500--changes turning duration?
 
     /*
      * State Track Initialization for Circulatory Map
