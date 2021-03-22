@@ -1,5 +1,5 @@
 # Swarm Robotic Platform
-### Repo Copied from Josh Cohen
+### Repo Copied from Josh Cohen: https://github.com/JCohner/swarm_platform
 #### Edits Made by Scott Odland and Karalyn Baird
 
 ## Intro

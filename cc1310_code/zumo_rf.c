@@ -41,33 +41,31 @@ uint8_t offset_lookup()
     switch(mach_id)
     {
     case 0xC464:
-        uniq_offset = 20; // OG: 2
+        uniq_offset = 2;
         break;
     case 0xC219:
-        uniq_offset = 21; // OG: 3
+        uniq_offset = 3;
         break;
     case 0xA171:
-        uniq_offset = 22; // OG: 5
-        break;
-    case 0xA3CE:        // NEW BOT
-        uniq_offset = 23;
+        uniq_offset = 5;
         break;
     case 0xC683:
-        uniq_offset = 24;
+        uniq_offset = 7;
         break;
     case 0x20CE:
-        uniq_offset = 25; // OG: 11
+        uniq_offset = 11;
         break;
     case 0xB5A8:
-        uniq_offset = 26;
+        uniq_offset = 13;
         break;
     case 0xC262:
-        uniq_offset = 27;
+        uniq_offset = 17;
         break;
     case 0xA3EB:
-        uniq_offset = 28;
+        uniq_offset = 19;
         break;
     case 0xC718:
+<<<<<<< HEAD
         uniq_offset = 29;
         break;
     case 0xA619:        // NEW BOT
@@ -81,6 +79,9 @@ uint8_t offset_lookup()
         break;
     case 0x2394:        // NEW BOT
         uniq_offset = 33;
+=======
+        uniq_offset = 23;
+>>>>>>> parent of 9bb7082 (update 2/17)
         break;
     default:
         sprintf(buffer, "no match for %X\r\n", mach_id);
