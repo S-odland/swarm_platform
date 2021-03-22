@@ -43,7 +43,6 @@ uint8_t pol_lookup()
     switch(mach_id)
     {
     case 0xC464:
-<<<<<<< HEAD
         pol = 0; // inner left loop
         break;
     case 0xC718:
@@ -84,33 +83,6 @@ uint8_t pol_lookup()
         break;
     case 0x2394: // NEW BOT
         pol = 0;
-=======
-        pol = 0;
-        break;
-    case 0xC219:
-        pol = 0;
-        break;
-    case 0xA171:
-        pol = 2; // outer left loop
-        break;
-    case 0xC683:
-        pol = 1;
-        break;
-    case 0x20CE:
-        pol = 3;
-        break;
-    case 0xB5A8:
-        pol = 3; // inner right loop
-        break;
-    case 0xC262:
-        pol = 1;
-        break;
-    case 0xA3EB:
-        pol = 1; // outer right loop
-        break;
-    case 0xC718:
-        pol = 0; // inner left loop
->>>>>>> parent of 9bb7082 (update 2/17)
         break;
     default:
         sprintf(buffer, "no match for %X\r\n", mach_id);
