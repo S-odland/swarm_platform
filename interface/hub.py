@@ -10,6 +10,7 @@ from PyQt5.QtCore import *
 from data_handler import data_in
 from helpful import int_to_bin_str
 from comm_packet import packet
+import data_dicts
 
 import time
 import threading
@@ -32,12 +33,8 @@ class UI(QWidget):
 		self.setLayout(grid)
 
 		#data handler stuff
-<<<<<<< HEAD
 		self.data_sock = data_in(21) ##############################	CURRENT COM PORT NUMBER ##################
 
-=======
-		self.data_sock = data_in(6) ##############################	CURRENT COM PORT NUMBER ##################
->>>>>>> parent of 9bb7082 (update 2/17)
 		print("open")
 		label = QLabel("Swarm Control GUI")
 		header = QHBoxLayout()
@@ -68,7 +65,7 @@ class UI(QWidget):
 		
 
 		self.ID_edit = ID_edit
-		self.policy_combo_box = QComboBox();
+		self.policy_combo_box = QComboBox()
 		# self.policy_combo_box.setPlaceholderText("set policy")
 		for i in range(pow(2,5)):
 			self.policy_combo_box.addItem(int_to_bin_str(i, 5))
@@ -81,6 +78,36 @@ class UI(QWidget):
 		cmd_grid.addWidget(disp_info_btn,3, 0, 1, 1)
 		cmd_group.setLayout(cmd_grid)
 		grid.addWidget(cmd_group, 1,0,1,1)
+
+		## KB section
+		kb_group = QGroupBox('Bot Reset')
+		kb_group_grid = QGridLayout()
+
+		## Type bot of interest
+		ID2_edit = QLineEdit()
+		ID2_edit.setPlaceholderText("Robot ID <press Enter>")
+		ID2_edit.returnPressed.connect(self.set_mach_id)
+		kb_group_grid.addWidget(ID2_edit, 0,0, 1, 2)
+
+		## Add a dropdown option for S&G's
+		self.kb_fun = QComboBox()
+		self.kb_fun.addItem('bb_idx')
+		self.kb_fun.addItem('yeehaw')
+		kb_group_grid.addWidget(self.kb_fun,1,0,1,1)
+
+		self.kb_fun2 = QComboBox()
+		self.kb_fun2.addItem('state')
+		self.kb_fun2.addItem('yeehaw')
+		kb_group_grid.addWidget(self.kb_fun2,1,1,1,1)
+
+		## Add a new button for S&G's
+		new_test_btn = QPushButton('send policy')
+		kb_group_grid.addWidget(new_test_btn,2,0,1,2)
+
+		# Configure new items
+		kb_group.setLayout(kb_group_grid)
+		grid.addWidget(kb_group, 0,1,2,1)
+
 
 		trail_group = QGroupBox("data collect")
 		trail_group_grid = QGridLayout()
@@ -108,7 +135,7 @@ class UI(QWidget):
 		trail_group_grid.addWidget(self.csv_num_el_edit, 1, 1, 1, 1)
 		trail_group_grid.addWidget(self.idx_counter,2, 1, 1,1)
 		trail_group.setLayout(trail_group_grid)
-		grid.addWidget(trail_group, 0,1,2,1)
+		grid.addWidget(trail_group, 0,2,2,1) ## KB changed from 0,1,2,1
 
 		self.info_disp = QLabel("info:")
 		grid.addWidget(self.info_disp, 3,0,1,2)
@@ -124,7 +151,7 @@ class UI(QWidget):
 		# grid.addLayout(liney, 1, 0, 1, 1)
 
 		self.setWindowTitle('Swarm Interface')
-		self.resize(500, 250)
+		self.resize(675, 250) ## KB changed from 500,250
 		self.center()
 		self.show()
 
@@ -149,7 +176,7 @@ class UI(QWidget):
 	def upload_pol(self):
 		print(self.policy_combo_box.currentText())
 		self.curr_pack.set_info(self.policy_combo_box.currentText())
-		self.curr_pack.set_cmd("set_pol")
+		self.curr_pack.set_cmd("set_pol") ## would need to replicate this to add other commands
 		self.data_sock.write_packet(self.curr_pack)
 
 	def center(self):

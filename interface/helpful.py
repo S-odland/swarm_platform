@@ -2,7 +2,7 @@ import sys
 def int_to_bin_str(val, len):
 	strong = ""
 	for i in range(len - 1,-1,-1):
-		if int(val) & pow(2, i):
+		if int(val) & pow(2, i): # i^2?
 			strong += '1'
 		else:
 			strong += '0'

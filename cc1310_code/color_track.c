@@ -30,7 +30,7 @@ void detect_xc(uint32_t * vals)
     {
        // GPIO_toggleDio(BLED1);
         set_intersection_flag(1);
-        GPIO_writeDio(BLED1,1);
+//        GPIO_writeDio(BLED1,1);
         WriteUART0("Intersection Detected\r\n");
     }
     return;

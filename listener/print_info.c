@@ -9,6 +9,7 @@
 #include "uart.h"
 
 static char buffer[50];
+//static char buffer2[100];
 void print_info(uint32_t data)
 {
     uint16_t mach_id = (data & MACH_MASK) >> MACH_SHIFT; //10-15th bits is mach ID
@@ -16,13 +17,15 @@ void print_info(uint32_t data)
     uint8_t policy = (data & POLICY_MASK) >> POL_SHIFT; //4-8 bit is poloicy
     uint8_t bb_idx = (data & BBI_MASK) >> BBI_SHIFT;
     uint8_t xc_state = data & STATE_MASK; //0-3 bit is state
-
+//    uint32_t data2 = data;
 
     //        sprintf(buffer, "%u\r\n", * (packetDataPointer + 2));
 //    sprintf(buffer, "mach: %x\ttarg: %u\tpol: %u\tbbi: %u\tstate: %X\r\n",
 //            mach_id, target_flag, policy, bb_idx, xc_state);
+//    sprintf(buffer2,"this is new: %X\r\n", data2);
     sprintf(buffer, "%X,%u,%u,%u,%u\r\n",
             mach_id, target_flag, policy, bb_idx, xc_state);
 
+//    WriteUART0(buffer2);
     WriteUART0(buffer);
 }

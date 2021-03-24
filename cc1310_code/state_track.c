@@ -131,14 +131,14 @@ void inc_state()
 
 
     //for when its acceptable to overwrite DRIVING policy
-    if ((xcs == 0b110 || xcs == 0xC)
+    if ((xcs == 0b110 || xcs == 0xC) // NEW POLICY FROM BOTS -- ONLY ON 6 AND 12
             && get_neighbor_target_flag() && !get_ignore_pol_flag()
             && !get_actuation_flag() && get_on_line_flag())
     {
         set_policy(get_neighbor_target_policy());
         set_neighbor_target_flag(0);
     }
-    if ((xcs == 0b110 || xcs == 0xC)
+    if ((xcs == 0b110 || xcs == 0xC) // NEW POLICY FROM GUI ONLY ON 6 AND 12
             && get_new_policy_flag()
             && !get_actuation_flag() && get_on_line_flag())
     {

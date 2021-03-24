@@ -5,6 +5,7 @@ import pandas as pd
 import sys 
 import time
 
+import data_dicts
 import comm_packet
 from helpful import int_to_bin_str
 from add_robot import MAC_mem
@@ -38,8 +39,8 @@ class data_in():
 
 	def read(self):
 		mess = self.ser.readline().decode('utf-8')
-		print(mess)
-		print(len(mess))
+		# print(mess)
+		# print(len(mess))
 		if (len(mess) != 14 and len(mess) != 15 and len(mess) != 16):
 			return
 
@@ -63,20 +64,33 @@ class data_in():
 		ser.write(info)
 
 	def write_packet(self,packet):
+
+		# ser = serial.Serial()
+		# ser.baudrate = 115200
+		# ser.port = 'COM{}'.format(21)
+		# self.ser = ser
+		# self.ser.open()
+
+
 		mess = ""
 		mess += int_to_bin_str(int(packet.mach_id,16), 16)
-		mess += '00000' #padding
-		mess += int_to_bin_str(packet.cmd, 3)
-		if not (isinstance(packet.info, str)):
+		# packet.region allocated first 4 bits
+		mess += '10010' #padding, started all zeroes
+		mess += int_to_bin_str(packet.cmd, 3) #kb what does this do--packet the key?
+		if not (isinstance(packet.info, str)): #kb what does this do
 			mess += int_to_bin_str(packet.info, 8)
 		else:
 			mess += '000'
 			mess += packet.info
-		print(mess)
+		print('Mess: ', mess)
 		hex_rep = hex(int(mess, 2)) + '\r'
-		print(hex_rep)
+		print('Hex_rep: ', hex_rep)
 		self.ser.write(hex_rep.encode())
-		# print(self.ser.read_until())
+		print('Serial read: ', self.ser.read_until()) ## reading serial from C
+		print('Packet.cmd: ', packet.cmd)
+		print('Packet.info: ', packet.info)
+		print('New serial read: ', self.ser.readline().decode('utf-8'))
+		# print('Packet: ', packet)
 
 	def write_message(self, mess):
 		self.ser.write(mess)
