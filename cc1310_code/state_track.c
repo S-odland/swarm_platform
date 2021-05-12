@@ -277,21 +277,25 @@ void inc_state()
     if (region_counter < 9)
     {
         //assign region_counter_bits to 00 (0 loops)
+        set_region_counter_bits(0);
     }
 
     if (region_counter >= 9 && region_counter <18)
     {
         //assign region_counter_bits to 01 (equal to 1 loop)
+        set_region_counter_bits(1);
     }
 
     if (region_counter >= 18 && region_counter < 27)
     {
         //assign region_counter_bits to 10 (equal to 2 loops)
+        set_region_counter_bits(2);
     }
 
     if (region_counter >= 27)
     {
         //assign region_counter_bits to 11 (equal to 3 loops)
+        set_region_counter_bits(3);
     }
 
     //increment number of completed loops--Josh's version
