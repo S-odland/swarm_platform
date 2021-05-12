@@ -217,7 +217,7 @@ void detect_right_black_target(uint32_t * vals){
 
 void detect_all_mirror_target(uint32_t * vals)
 {
-    WriteUART0("All Mirror Detection Mode \r\n");
+//    WriteUART0("All Mirror Detection Mode \r\n");
     mirror.right_accum = 0;
     mirror.right_stash_val = 0;
     mirror.right_prev_vals_ave = 0;

@@ -229,7 +229,7 @@ void inc_state()
 
     //to reset if no new policy & completed at least one loop
     //accounts for communications since region_counter reset above first upon communication
-    if ((xcs == 0b110 || xcs == 0xC) && (region_counter >= 9) && !get_target_flag())
+    if ((xcs == 0b110 || xcs == 0xC) && (region_counter >= 10) && !get_target_flag())
     {
         set_policy(get_random_num(28)); // assign a random policy
         region_counter = 0; // reset counter
@@ -243,7 +243,7 @@ void inc_state()
             set_secondary_target_flag(0);
         }
 
-    if ((xcs == 0b110 || xcs == 0xC) && get_target_flag() && (region_counter >= 27)) // approx. 3 loops
+    if ((xcs == 0b110 || xcs == 0xC) && get_target_flag() && (region_counter >= 30)) // approx. 3 loops
     {
         set_policy(get_random_num(28)); // generate a new random policy
         set_target_flag(0); // turn off target flag
@@ -274,29 +274,29 @@ void inc_state()
 
     //increment number of completed loops--KB's version
     //premise: <9 = 0 loops, >=9 and <= 18 = 1 loop, >= 27 = 3 loops. should never reach 4 loops, so 2 bits are sufficient.
-    if (region_counter < 9)
-    {
-        //assign region_counter_bits to 00 (0 loops)
-        set_region_counter_bits(0);
-    }
-
-    if (region_counter >= 9 && region_counter <18)
-    {
-        //assign region_counter_bits to 01 (equal to 1 loop)
-        set_region_counter_bits(1);
-    }
-
-    if (region_counter >= 18 && region_counter < 27)
-    {
-        //assign region_counter_bits to 10 (equal to 2 loops)
-        set_region_counter_bits(2);
-    }
-
-    if (region_counter >= 27)
-    {
-        //assign region_counter_bits to 11 (equal to 3 loops)
-        set_region_counter_bits(3);
-    }
+//    if (region_counter < 9)
+//    {
+//        //assign region_counter_bits to 00 (0 loops)
+//        set_region_counter_bits(0);
+//    }
+//
+//    if (region_counter >= 9 && region_counter <18)
+//    {
+//        //assign region_counter_bits to 01 (equal to 1 loop)
+//        set_region_counter_bits(1);
+//    }
+//
+//    if (region_counter >= 18 && region_counter < 27)
+//    {
+//        //assign region_counter_bits to 10 (equal to 2 loops)
+//        set_region_counter_bits(2);
+//    }
+//
+//    if (region_counter >= 27)
+//    {
+//        //assign region_counter_bits to 11 (equal to 3 loops)
+//        set_region_counter_bits(3);
+//    }
 
     //increment number of completed loops--Josh's version
     if (( (xcs == 0b110 && prev_xcs == 0b101)|| (xcs == 0xC && prev_xcs == 0xA))
@@ -321,6 +321,8 @@ void inc_state()
 //        }
     }
 
+//    sprintf(buffer,"Current region counter: %X \r\n", region_counter);
+//    WriteUART0(buffer);
 
 }
 
