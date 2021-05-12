@@ -14,7 +14,7 @@
 #include "helpful.h"
 
 //enum States{ret_0=0b101, ret_1=0b110, for_0=0b001, for_1=0b010};
-
+//int newpol_counter = 0;
 
 #define MAX_NUM_BRANCHES 2
 struct StateTrack{
@@ -22,6 +22,13 @@ struct StateTrack{
     uint8_t policy : 5;
     uint8_t return_policy : 5;
     uint8_t target : 1;
+    uint8_t target2: 1;
+
+    //region bits
+    uint8_t region : 4;
+
+    //region counter
+    uint8_t region_bit_counter : 5;
 
     //state management bits
     uint8_t bb_idx : 2;
@@ -31,7 +38,7 @@ struct StateTrack{
     uint8_t mask;
     uint8_t NUM_BRANCHES : 4;
 
-
+//    uint8_t counter: 1;
     uint8_t xc_state : 4;
     uint8_t prev_xc_state : 4;
 
@@ -43,6 +50,9 @@ struct StateTrack{
 
     uint8_t new_policy : 5; //if we want to load a new policy
     uint8_t new_policy_flag : 1;//flag indicates new pol received
+
+    uint8_t new_region : 4;
+    uint8_t region_flag : 1;
 
     uint8_t on_line_flag : 1; // raised if robot on line
     uint8_t actuation_flag : 1; //raised if: xc_state != prev_xc_state || ret_flag != prev_ret_flag
@@ -73,6 +83,9 @@ uint8_t get_prev_xc_state();
 void set_target_flag(uint8_t target);
 uint8_t get_target_flag();
 
+void set_secondary_target_flag(uint8_t target);
+uint8_t get_secondary_target_flag();
+
 void set_actuation_flag(uint8_t flag);
 uint8_t get_actuation_flag();
 
@@ -101,8 +114,14 @@ void set_neighbor_target_flag(uint8_t flag);
 void set_new_policy(uint8_t policy);
 uint8_t get_new_policy();
 
+void set_new_region(uint8_t region);
+uint8_t get_new_region();
+
 uint8_t get_new_policy_flag();
 void set_new_policy_flag(uint8_t flag);
+
+void set_region_flag(uint8_t flag);
+void set_region(uint8_t region);
 
 void set_enable_flag(uint8_t flag);
 uint8_t get_enable_flag();
@@ -113,6 +132,9 @@ uint8_t get_dist_flag();
 void set_num_loops(uint8_t num);
 uint8_t get_num_loops();
 
+void set_region_counter_bits(uint8_t num);
+uint8_t get_region_counter_bits();
+
 void set_ignore_pol_flag(uint8_t flag);
 uint8_t get_ignore_pol_flag();
 
@@ -121,6 +143,8 @@ uint8_t get_actuation_pre_ret_flag();
 
 void evaluate_state();
 void inc_state();
+
+void inc_region(uint8_t region);
 
 //gets the mask for the mask, only used internally
 uint8_t get_mask_mask(uint8_t bb);

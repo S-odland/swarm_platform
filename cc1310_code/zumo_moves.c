@@ -12,8 +12,9 @@ static uint32_t on_time = 0;
 static uint16_t reset_time = 0;
 
 static uint16_t offset_time = 0;
-static volatile uint32_t counter = 0;
+
 static volatile uint8_t state = 0;
+static volatile uint32_t counter = 0;
 
 void setMotor(int motor, int dir, int value)
 {
@@ -174,6 +175,7 @@ void openloop_turn()
 //            WriteUART0("ACTUATING\r\n");
 //            sprintf(buffer, "dir: %u\r\n", dir);
 //            WriteUART0(buffer);
+//            WriteUART0("Open Loop Turn Initiated\r\n");
             rotate(dir);
         }
         else
@@ -190,7 +192,8 @@ void openloop_turn()
     else if (counter >= on_time + offset_time && state)
     {
 
-//        GPIO_toggleDio(BLED0);
+//        GPIO_toggleDio(BLED1);
+        GPIO_writeDio(BLED0,0);
         setMotor(M1, dir, MOTOR_OFF);
         setMotor(M2, !dir, MOTOR_OFF);
 //        delay(5);
@@ -223,7 +226,7 @@ void manage_intersection()
 //    WriteUART0(buffer);
     if (xc_state != prev_xc_state)
     {
-        GPIO_toggleDio(BLED3);
+//        GPIO_toggleDio(BLED3);
         init_openloop();
     }
 

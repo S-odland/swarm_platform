@@ -9,10 +9,12 @@
 #include "color_track.h"
 #include "uart.h"
 #include "leds.h"
+#include "helpful.h"
+//#include "state_track.h"
 //#include "zumo_rf.h"
 #define NUM_COLORS 3
 
-static struct ColorTrack graphite = {.low_bound = GREY_LOW, .high_bound = GREY_HIGH, .detect_thresh = 6}; // 3/18 changed from 4 to 6, changed detect_thresh OG: 6, tried 18
+static struct ColorTrack graphite = {.low_bound = GREY_LOW, .high_bound = GREY_HIGH, .detect_thresh = 18}; // 3/18 changed from 4 to 6, changed detect_thresh OG: 6, tried 18
 
 static struct ColorTrack white = {.low_bound = WHITE_LOW, .high_bound = WHITE_HIGH, .detect_thresh = 0};
 
@@ -30,7 +32,7 @@ void detect_xc(uint32_t * vals)
     {
        // GPIO_toggleDio(BLED1);
         set_intersection_flag(1);
-//        GPIO_writeDio(BLED1,1);
+        GPIO_writeDio(BLED1,1);
         WriteUART0("Intersection Detected\r\n");
     }
     return;
@@ -86,13 +88,32 @@ void detect_poi(uint32_t * vals, int choice)
 
     graphite.idx = (graphite.idx + 1) % NUM_PREV_VALS;
 
+
+
+
+    if (graphite.left_prev_vals_ave + graphite.right_prev_vals_ave > graphite.detect_thresh)
+    {
+        GPIO_toggleDio(BLED0);
+
+        for (i = 0; i < NUM_PREV_VALS; i++)
+                    {
+                        graphite.left_prev_vals[i] = 0;
+                        graphite.right_prev_vals[i] = 0;
+                    }
+    }
+
+
+
+
+
     if (!get_detect_flag() && !get_actuation_flag())
     {
         if (graphite.left_prev_vals_ave + graphite.right_prev_vals_ave > graphite.detect_thresh)
         {
             set_detect_flag(1);
             WriteUART0("Gray Line Detected\r\n");
-            GPIO_writeDio(BLED0,1);
+//            GPIO_writeDio(BLED0,1);
+
 //            GPIO_toggleDio(BLED0);
             for (i = 0; i < NUM_PREV_VALS; i++)
             {
@@ -196,6 +217,7 @@ void detect_right_black_target(uint32_t * vals){
 
 void detect_all_mirror_target(uint32_t * vals)
 {
+    WriteUART0("All Mirror Detection Mode \r\n");
     mirror.right_accum = 0;
     mirror.right_stash_val = 0;
     mirror.right_prev_vals_ave = 0;
@@ -220,6 +242,8 @@ void detect_all_mirror_target(uint32_t * vals)
         {
             WriteUART0("Target Detected\r\n");
             GPIO_writeDio(BLED2,1);
+            set_target_flag(1);
+            set_secondary_target_flag(1);
 //            GPIO_toggleDio(BLED0);
             for (i = 0; i < NUM_PREV_VALS; i++)
             {

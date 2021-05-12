@@ -15,7 +15,7 @@
 #define PURP_LOW 325
 #define PURP_HIGH 425
 
-#define GREY_LOW 470
+#define GREY_LOW 400
 #define GREY_HIGH 750
 
 #define WHITE_LOW 200

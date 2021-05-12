@@ -34,8 +34,8 @@ uint32_t get_packet()
 
 void evaluate_packet(uint32_t packet)
 {
-    sprintf(buffer, "packet: %X\r\n", packet);
-    WriteUART0(buffer);
+//    sprintf(buffer, "packet: %X\r\n", packet);
+//    WriteUART0(buffer);
 
     uint32_t send_id = (packet & MACH_MASK) >> MACH_SHIFT;
 //    sprintf(buffer, "send_id: %X\r\n", send_id);
@@ -100,6 +100,7 @@ uint8_t check_near(struct Packet * info)
 void evaluate_command(uint32_t packet)
 {
     uint8_t val;
+    uint8_t val2;
     switch ((packet & COMMAND_MASK) >> COMMAND_SHIFT)
     {
     case START_CMD:
@@ -111,6 +112,8 @@ void evaluate_command(uint32_t packet)
     case NEW_POLICY_CMD:
         val = (packet & NEW_POLICY_MASK);
         set_new_policy(val); //might have to figure out how this fits in state machine
+        val2 = ((packet & NEW_REGION_MASK) >> NEW_REGION_SHIFT);
+        set_new_region(val2);
         set_new_policy_flag(1);
         //SetAndWritePinHigh(BLED0);
         break;

@@ -64,9 +64,9 @@ void main_loop()
     ReadIR(adc_vals);
 
     //ODD IS LEFT
-          sprintf(buffer,"%u, %u, %u, %u, %u, %u\r\n", adc_vals[5], adc_vals[3], adc_vals[1],
-                            adc_vals[0], adc_vals[2], adc_vals[4]);
-          WriteUART0(buffer);
+//          sprintf(buffer,"%u, %u, %u, %u, %u, %u\r\n", adc_vals[5], adc_vals[3], adc_vals[1],
+//                            adc_vals[0], adc_vals[2], adc_vals[4]);
+//          WriteUART0(buffer);
     float IR_val = read_line(adc_vals);
     uint32_t forDisVal = ReadDistForward();
     uint32_t sideDisVal = ReadDist45();
@@ -74,7 +74,7 @@ void main_loop()
 //          WriteUART0(buffer);
     drive_line(IR_val, forDisVal, sideDisVal, adc_vals);
     // choice is for target detection selection
-    detect_poi(adc_vals,allBlack); // TARGET DETECTION CONFIGURATION
+    detect_poi(adc_vals,mirrormode); // TARGET DETECTION CONFIGURATION
     detect_xc(adc_vals);
     inc_state();
     manage_intersection();
