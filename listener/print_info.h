@@ -15,12 +15,14 @@
 #define TFLAG_MASK 0x000400
 #define BBI_MASK 0x0000010
 #define STATE_MASK 0x000000F
+#define TRACK_MASK 0x00800 // for tracking the target flag each loop
 
 #define MACH_SHIFT 16
 #define POL_SHIFT 5
 #define TFLAG_SHIFT 10
 #define BBI_SHIFT 4
 #define STATE_SHIFT 0
+#define TRACK_SHIFT 11
 
 
 void print_info(uint32_t data);

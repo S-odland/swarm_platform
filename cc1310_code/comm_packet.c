@@ -25,6 +25,7 @@ static char buffer[50];
 uint32_t get_packet()
 {
     return  get_mach_id() << MACH_SHIFT |
+            get_secondary_target_flag() << TRACK_SHIFT |
             get_target_flag() << TFLAG_SHIFT |
             get_bb_idx() << BBI_SHIFT |
             get_policy() << POL_SHIFT |
@@ -47,6 +48,7 @@ void evaluate_packet(uint32_t packet)
     }
 
     struct Packet info = {.mach_id = (packet & MACH_MASK) >> MACH_SHIFT,
+                          .track_flag = (packet & TRACK_MASK) >> TRACK_SHIFT,
                           .target_flag = (packet & TFLAG_MASK) >> TFLAG_SHIFT,
                           .policy = (packet & POLICY_MASK) >> POL_SHIFT,
                           .bb_idx = (packet & BBI_MASK) >> BBI_SHIFT,

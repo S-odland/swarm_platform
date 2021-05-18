@@ -15,6 +15,7 @@
 #define TFLAG_MASK 0x000400
 #define BBI_MASK 0x000010
 #define STATE_MASK 0x00000F
+#define TRACK_MASK 0x00800 // for tracking the target flag each loop
 
 #define MACH_SHIFT 16
 #define POL_SHIFT 5
@@ -22,11 +23,13 @@
 #define BBI_SHIFT 4
 #define STATE_SHIFT 0
 #define NEW_REGION_SHIFT 12
+#define TRACK_SHIFT 11
 
 struct Packet {
     uint16_t mach_id : 16;
     uint8_t pad : 5;
     uint8_t target_flag : 1;
+    uint8_t track_flag : 1;
     uint8_t policy : 5;
     uint8_t bb_idx : 1;
     uint8_t xc_state : 4;

@@ -23,7 +23,7 @@ def get_time():
 class data_in():
 	def __init__(self, port):
 		# self.data = pd.DataFrame(np.array(np.zeros((6, 10000))), index=["id", "tflag",  "pol", "bb_idx","state", "time"])
-		self.data = pd.DataFrame(np.array(np.zeros((5, 10000))), index=["id", "tflag",  "pol", "region", "time"]) 
+		self.data = pd.DataFrame(np.array(np.zeros((6, 10000))), index=["id", "stflag", "tflag",  "pol", "region", "time"]) 
 		self.data.loc["id",:] = self.data.loc["id",:].astype(str)
 		self.data.loc["time",:] = self.data.loc["time",:].astype(str)	
 		self.data_idx = 0
@@ -49,28 +49,28 @@ class data_in():
 		# print("we're in the read function!")
 		print("this is mess: ", mess)
 		# print(len(mess))
-		if (len(mess) != 14 and len(mess) != 15 and len(mess) != 16):
+		if (len(mess) != 17 and len(mess) != 18 and len(mess) != 19):
 			print("Incorrect Message Length")
 			return
 
 		id = mess[:4]
 		state = np.fromstring(mess[5:], sep=",") # JOSH OG
 
-		if(state.shape[0] != 4): # JOSH OG
+		if(state.shape[0] != 5): # JOSH OG
 			print('Incorrect Message Shape')
 			return
 
 		## KB additions:
-		binrep = decimalToBinary2(int(state[1]), 5)
-		# print('This is binrep: ', binrep)
+		binrep = decimalToBinary2(int(state[2]), 5)
 		polstring = ivd[binrep]
-		region = bbdict[str(int(state[2])) + str(int(state[3]))]
-		# region = bbdict[mess[9] + mess[11:-2]]
-		target = int((np.fromstring(mess[5:6], sep=",")))
-		new_state = np.append(target, [polstring, region])
+		region = bbdict[str(int(state[3])) + str(int(state[4]))]
+		tracker = int(np.fromstring(state[0]))
+		target = int(np.fromstring(state[1]))
+		# target = int((np.fromstring(mess[6:7], sep=",")))
+		new_state = np.append(tracker, [target, polstring, region])
 
 		# entry = pd.Series(np.zeros(6), index=["id", "tflag", "pol", "bb_idx", "state", "time"]) #JOSH OG
-		entry = pd.Series(np.zeros(5), index=["id", "tflag", "pol", "region", "time"]) #KB update
+		entry = pd.Series(np.zeros(6), index=["id", "stflag", "tflag", "pol", "region", "time"]) #KB update
 		entry.id = entry.id.astype(str)
 		entry.loc["id"] = id
 
@@ -99,7 +99,7 @@ class data_in():
 		# mess += '0' #padding, started all zeroes ##### for when kb does the region stuff
 		mess += str(packet.region)
 		# print("the region is: ", packet.region)
-		mess += '0' #og
+		mess += '0' #og -- use this bit for actual target flag
 		# print('Will the region print? ' packet.region)
 		mess += int_to_bin_str(packet.cmd, 3) #kb what does this do--packet the key?
 		if not (isinstance(packet.info, str)): #kb what does this do
