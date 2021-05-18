@@ -41,22 +41,19 @@ uint8_t offset_lookup()
     switch(mach_id)
     {
     case 0xC464:
-        uniq_offset = 20; // OG: 2
+        uniq_offset = 21;
         break;
     case 0xC219:
-        uniq_offset = 21; // OG: 3
+        uniq_offset = 22;
         break;
     case 0xA171:
-        uniq_offset = 22; // OG: 5
-        break;
-    case 0xA3CE:        // NEW BOT
         uniq_offset = 23;
         break;
     case 0xC683:
         uniq_offset = 24;
         break;
     case 0x20CE:
-        uniq_offset = 25; // OG: 11
+        uniq_offset = 25;
         break;
     case 0xB5A8:
         uniq_offset = 26;

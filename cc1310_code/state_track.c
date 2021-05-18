@@ -12,6 +12,9 @@
 #include <stdint.h>
 #include "rando.h"
 
+static volatile uint32_t region_counter = 0;
+static volatile uint32_t kb_tflag = 0;
+
 static struct StateTrack state_track = {.bbs = {3,4}};
 //=                                 {.xc_state = 0b1100, .prev_xc_state=0b1100,
 //                                 .actuation_flag = 0,
@@ -78,12 +81,90 @@ uint8_t get_mask_mask(uint8_t bb)
  *
  */
 static char buffer[50];
+
+//void check_region()
+//{
+//    if (region_flag())
+//        {
+////        set_region(get_new_region());
+////        set_region_flag(1);
+//            inc_region(get_new_region());
+//            set_policy(get_new_policy());
+//            set_new_policy_flag(0);
+//            set_region_flag(0);
+//    }
+//}
+
+void inc_region(uint8_t region)
+{
+    uint8_t bbs[2] = {3,4};
+    init_state(0b1100, 2, bbs, 4, 1, 0, 0x7); // this is new
+
+    uint8_t xcs = state_track.xc_state;
+    uint8_t prev_xcs = state_track.prev_xc_state;
+    uint8_t ret = state_track.ret;
+
+//     set_policy(state_track.policy); // new change
+     sprintf(buffer, "State_track.policy: %d \r\n",
+                     state_track.policy);
+     WriteUART0(buffer);
+     set_new_policy_flag(0);
+
+    //ensures we actually detect transition
+    int i;
+    for (i = 0; i < region; i++)
+    {
+        //OHE encoding of all but MSB
+        xcs = (xcs & state_track.mask) << 1;
+        //Wrap all but MSB
+        xcs = xcs % state_track.mask;
+        //Add MSB back in to reflect if one return path
+        xcs = xcs | ret << (state_track.bb - 1);
+        //Tracks bit before MSB, this XORd with current MSB (ie ret) allows correct trans
+        ret = (((xcs & (0b1 << (state_track.bb - 2)))) >> (state_track.bb - 2)) ^ ret;
+
+
+        sprintf(buffer, "1: xcs: %X, prev: %X, bb_idx: %X, region: %X\r\n",
+                xcs, prev_xcs, state_track.bb_idx, i);
+        WriteUART0(buffer);
+        //Deals with switching between branches of different bb
+        if (xcs < prev_xcs)
+        {
+            state_track.bb_idx = (state_track.bb_idx + 1) % state_track.NUM_BRANCHES;
+            state_track.bb = state_track.bbs[state_track.bb_idx];
+            state_track.mask = get_mask_mask(state_track.bb);
+        }
+
+        //fast forward for truncated path (the 0bx11xx policy)
+        if(xcs == 0b0100 && get_bb_idx() && (((get_policy() & 0b01100) >> 2) == 0b11))
+        {
+            //fast forward for path that has lack of
+            xcs = 0xA;
+            ret = 1; //this may break;
+        }
+
+        state_track.xc_state = xcs;
+        state_track.prev_xc_state = xcs;
+        state_track.ret = ret;
+//        state_track.prev_xc_state = xcs;
+
+        sprintf(buffer, "2: xcs: %X, prev: %X, bb_idx: %X, region: %X\r\n",
+                        xcs, prev_xcs, state_track.bb_idx, i);
+        WriteUART0(buffer);
+//        set_prev_xc_state(xcs);
+        prev_xcs = xcs;
+
+    }
+
+}
+
 //after an intersection has been dealt with we can increment the state
 void inc_state()
 {
     uint8_t xcs = state_track.xc_state;
     uint8_t prev_xcs = state_track.prev_xc_state;
     uint8_t ret = state_track.ret;
+
 
     //ensures we actually detect transition
     if (get_intersection_flag() && !get_actuation_flag() && get_detect_flag() && get_on_line_flag())
@@ -115,38 +196,109 @@ void inc_state()
             //fast forward for path that has lack of
             xcs = 0xA;
             ret = 1; //this may break;
+            region_counter += 1;
         }
 
         state_track.xc_state = xcs;
         state_track.ret = ret;
+
+        sprintf(buffer, "OG: xcs: %X, prev: %X, bb_idx: %X\r\n",
+                                xcs, prev_xcs, state_track.bb_idx);
+                WriteUART0(buffer);
 //        state_track.prev_xc_state = xcs;
 
         //set_intersection_flag(0); //going to set this low when managed by manage_intersection()
         set_detect_flag(0);
         set_on_line_flag(0);
         //GPIO_writeDio(BLED0,0);
+        region_counter += 1;
     }
 
 
 
 
-    //for when its acceptable to overwrite DRIVING policy
-    if ((xcs == 0b110 || xcs == 0xC)
+    //for when a neighbor has communicated their policy
+    if ((xcs == 0b110 || xcs == 0xC) // NEW POLICY FROM BOTS -- ONLY ON 6 AND 12
             && get_neighbor_target_flag() && !get_ignore_pol_flag()
             && !get_actuation_flag() && get_on_line_flag())
     {
         set_policy(get_neighbor_target_policy());
         set_neighbor_target_flag(0);
+        region_counter = 0; // reset region counter
     }
-    if ((xcs == 0b110 || xcs == 0xC)
-            && get_new_policy_flag()
-            && !get_actuation_flag() && get_on_line_flag())
+
+    //to reset if no new policy & completed at least one loop
+    //accounts for communications since region_counter reset above first upon communication
+    if ((xcs == 0b110 || xcs == 0xC) && (region_counter >= 10) && !get_target_flag())
     {
+        set_policy(get_random_num(28)); // assign a random policy
+        region_counter = 0; // reset counter
+    }
+
+    //to track target flag--reset after ~ 3 laps
+    // any time we've detected the target--always reset the region counter:
+        if (get_secondary_target_flag())
+        {
+            region_counter = 0;
+            set_secondary_target_flag(0);
+        }
+
+    if ((xcs == 0b110 || xcs == 0xC) && get_target_flag() && (region_counter >= 30)) // approx. 3 loops
+    {
+        set_policy(get_random_num(28)); // generate a new random policy
+        set_target_flag(0); // turn off target flag
+        GPIO_writeDio(BLED2,0); // turn off target LED
+        region_counter = 0; // reset region counter
+        set_secondary_target_flag(0); // redundant, probably
+    }
+
+
+    //for when we send a new policy through the GUI
+    if (get_new_policy_flag())
+    {
+//        set_region(get_new_region());
+//        set_region_flag(1);
+        inc_region(get_new_region());
         set_policy(get_new_policy());
         set_new_policy_flag(0);
     }
 
-    //increment number of completed loops
+    // to change just policy from GUI:
+//    if ((xcs == 0b110 || xcs == 0xC) // NEW POLICY FROM GUI ONLY ON 6 AND 12
+//                && get_new_policy_flag()
+//                && !get_actuation_flag() && get_on_line_flag())
+//        {
+//            set_policy(get_new_policy());
+//            set_new_policy_flag(0);
+//        }
+
+    //increment number of completed loops--KB's version
+    //premise: <9 = 0 loops, >=9 and <= 18 = 1 loop, >= 27 = 3 loops. should never reach 4 loops, so 2 bits are sufficient.
+//    if (region_counter < 9)
+//    {
+//        //assign region_counter_bits to 00 (0 loops)
+//        set_region_counter_bits(0);
+//    }
+//
+//    if (region_counter >= 9 && region_counter <18)
+//    {
+//        //assign region_counter_bits to 01 (equal to 1 loop)
+//        set_region_counter_bits(1);
+//    }
+//
+//    if (region_counter >= 18 && region_counter < 27)
+//    {
+//        //assign region_counter_bits to 10 (equal to 2 loops)
+//        set_region_counter_bits(2);
+//    }
+//
+//    if (region_counter >= 27)
+//    {
+//        //assign region_counter_bits to 11 (equal to 3 loops)
+//        set_region_counter_bits(3);
+//    }
+
+    //increment number of completed loops--Josh's version
     if (( (xcs == 0b110 && prev_xcs == 0b101)|| (xcs == 0xC && prev_xcs == 0xA))
             && !get_actuation_flag() && get_on_line_flag())
     {
@@ -169,6 +321,8 @@ void inc_state()
 //        }
     }
 
+//    sprintf(buffer,"Current region counter: %X \r\n", region_counter);
+//    WriteUART0(buffer);
 
 }
 
@@ -182,6 +336,17 @@ void set_policy(uint8_t policy)
     state_track.return_policy = ret_pol;
 }
 
+void set_region(uint8_t region)
+{
+    state_track.region = region;
+
+}
+
+uint8_t get_region()
+{
+    return state_track.region;
+}
+
 uint8_t get_policy()
 {
     return state_track.policy;
@@ -191,6 +356,16 @@ uint8_t get_return_policy()
 {
     return state_track.return_policy;
 }
+
+//void set_counter(uint8_t state) // Counter 1
+//{
+//    state_track.counter = state;
+//    }
+//
+//void get_counter()
+//{
+//    return state_track.counter;
+//    }
 
 void set_xc_state(uint8_t state)
 {
@@ -221,6 +396,16 @@ void set_target_flag(uint8_t target)
 uint8_t get_target_flag()
 {
     return state_track.target;
+}
+
+void set_secondary_target_flag(uint8_t target)
+{
+    state_track.target2 = target & 0x01;
+}
+
+uint8_t get_secondary_target_flag()
+{
+    return state_track.target2;
 }
 
 void set_actuation_flag(uint8_t flag)
@@ -289,9 +474,19 @@ void set_new_policy(uint8_t policy)
     state_track.new_policy = policy;
 }
 
+void set_new_region(uint8_t region)
+{
+    state_track.new_region = region;
+}
+
 uint8_t get_new_policy()
 {
     return state_track.new_policy;
+}
+
+uint8_t get_new_region()
+{
+    return state_track.new_region;
 }
 
 uint8_t get_new_policy_flag()
@@ -301,6 +496,11 @@ uint8_t get_new_policy_flag()
 void set_new_policy_flag(uint8_t flag)
 {
     state_track.new_policy_flag = flag & 0x1;
+}
+
+void set_region_flag(uint8_t flag)
+{
+    state_track.region_flag = flag & 0x1;
 }
 
 uint8_t get_enable_flag()

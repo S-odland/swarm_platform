@@ -53,12 +53,12 @@ float read_line(uint32_t * vals)
     for (i = 0; i < 4; ++i)
     {
         int value = ordered_vals[i];
-        if (value > 825) // play with this value???? OG: 825
+        if (value > 825)
         {
             on_line = 1;
         }
 
-        if (value > 750)
+        if (value > 750) // OG: 750
         {
             avg += value * (i * 1000);
             sum += value;

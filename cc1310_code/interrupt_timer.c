@@ -15,6 +15,8 @@
 #include "leds.h"
 #include "dist_sense.h"
 
+static char buffer[60];
+
 /**
  * @breif Handy debug function for checking pin toggling on an oscilliscope
  *
@@ -72,7 +74,7 @@ void main_loop()
 //          WriteUART0(buffer);
     drive_line(IR_val, forDisVal, sideDisVal, adc_vals);
     // choice is for target detection selection
-    detect_poi(adc_vals,allBlack); // TARGET DETECTION CONFIGURATION
+    detect_poi(adc_vals,mirrormode); // TARGET DETECTION CONFIGURATION
     detect_xc(adc_vals);
     inc_state();
     manage_intersection();

@@ -15,11 +15,14 @@
 #define PURP_LOW 325
 #define PURP_HIGH 425
 
-#define GREY_LOW 560 // og 470
-#define GREY_HIGH 750 //  og 750
+#define GREY_LOW 400
+#define GREY_HIGH 750
 
 #define WHITE_LOW 200
 #define WHITE_HIGH 500
+
+#define MIRROR_LOW 0
+#define MIRROR_HIGH 180
 
 #define REFLECTIVE_VAL 180 //200 was too low
 
@@ -48,7 +51,6 @@ struct ColorTrack {
 
 void detect_xc(uint32_t * vals);
 void detect_poi(uint32_t * vals, int choice);
-void delay(float sec);
 struct ColorTrack * get_color(uint8_t color);
 void reinit_stash_and_accum();
 
