@@ -62,6 +62,15 @@ void evaluate_packet(uint32_t packet)
         //set their policy as your own policy
         set_neighbor_target_policy(info.policy);
     }
+
+    //if target flag of packet is high & so is yours
+    if (info.target_flag && get_target_flag() && check_near(&info))
+    {
+        // set a flag for this case
+        set_double_target_flag(1);
+        // assign policy
+        set_double_target_policy(info.policy);
+    }
 }
 
 //checks if sender robot is near enough to communicate

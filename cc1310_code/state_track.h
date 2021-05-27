@@ -48,6 +48,10 @@ struct StateTrack{
     uint8_t neighbor_target_policy : 5; //this is the policy heard from another bot that has found target
     uint8_t neighbor_target_flag : 1; //flag that indicates another bot found target
 
+    //For cases where two bots have detected the target under different policies
+    uint8_t double_target_policy : 5; //this is the policy heard from another bot that has found target
+    uint8_t double_target_flag : 1; //flag that indicates self + another bot found target
+
     uint8_t new_policy : 5; //if we want to load a new policy
     uint8_t new_policy_flag : 1;//flag indicates new pol received
 
@@ -110,6 +114,13 @@ uint8_t get_neighbor_target_policy();
 
 uint8_t get_neighbor_target_flag();
 void set_neighbor_target_flag(uint8_t flag);
+
+//
+void set_double_target_policy(uint8_t policy);
+uint8_t get_double_target_policy();
+
+uint8_t get_double_target_flag();
+void set_double_target_flag(uint8_t flag);
 
 void set_new_policy(uint8_t policy);
 uint8_t get_new_policy();

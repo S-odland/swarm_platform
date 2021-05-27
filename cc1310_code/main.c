@@ -177,8 +177,8 @@ int main(void)
 
           ReadIR(adc_vals);
 //          WriteRF(adc_vals);
-          sprintf(buffer,"%u, %u, %u, %u, %u, %u\r\n", adc_vals[5], adc_vals[3], adc_vals[1], adc_vals[0], adc_vals[2], adc_vals[4]);
-          WriteUART0(buffer);
+//          sprintf(buffer,"%u, %u, %u, %u, %u, %u\r\n", adc_vals[5], adc_vals[3], adc_vals[1], adc_vals[0], adc_vals[2], adc_vals[4]);
+//          WriteUART0(buffer);
 
 
 //          sprintf(buffer,"system test");

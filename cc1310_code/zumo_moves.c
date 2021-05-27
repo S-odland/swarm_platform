@@ -194,6 +194,7 @@ void openloop_turn()
 
 //        GPIO_toggleDio(BLED1);
         GPIO_writeDio(BLED0,0);
+        GPIO_writeDio(BLED1,0);
         setMotor(M1, dir, MOTOR_OFF);
         setMotor(M2, !dir, MOTOR_OFF);
 //        delay(5);

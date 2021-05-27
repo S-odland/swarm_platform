@@ -13,7 +13,9 @@
 #include "rando.h"
 
 static volatile uint32_t region_counter = 0;
+static volatile uint32_t flag_reset = 0;
 static volatile uint32_t kb_tflag = 0;
+static volatile uint8_t random_flip = 0;
 
 static struct StateTrack state_track = {.bbs = {3,4}};
 //=                                 {.xc_state = 0b1100, .prev_xc_state=0b1100,
@@ -212,24 +214,51 @@ void inc_state()
         set_on_line_flag(0);
         //GPIO_writeDio(BLED0,0);
         region_counter += 1;
+        random_flip = get_random_num(50); // just a test for funsies
+        if (flag_reset == 1)
+        {
+            set_secondary_target_flag(0);
+            flag_reset = 0;
+        }
     }
 
 
 
 
-    //for when a neighbor has communicated their policy
-    if ((xcs == 0b110 || xcs == 0xC) // NEW POLICY FROM BOTS -- ONLY ON 6 AND 12
-            && get_neighbor_target_flag() && !get_ignore_pol_flag()
-            && !get_actuation_flag() && get_on_line_flag())
-    {
-        set_policy(get_neighbor_target_policy());
-        set_neighbor_target_flag(0);
-        region_counter = 0; // reset region counter
-    }
+    //for when a neighbor has communicated their policy--COMMENT OUT FOR NO COMMUNICATION
+//    if ((xcs == 0b110 || xcs == 0xC) // NEW POLICY FROM BOTS -- ONLY ON 6 AND 12 -- COMMENTED ONE OUT IF ONLY WANT 12
+//            && get_neighbor_target_flag() && !get_ignore_pol_flag()
+//            && !get_actuation_flag() && get_on_line_flag())
+//    {
+//        set_policy(get_neighbor_target_policy());
+//        set_neighbor_target_flag(0);
+//        region_counter = 0; // reset region counter
+//    }
+
+    //case where two bots have detected the target w/ unique policies
+//    if ((xcs == 0b110 || xcs == 0xC) // ONLY ON 6 AND 12
+//                && get_double_target_flag() && !get_ignore_pol_flag()
+//                && !get_actuation_flag() && get_on_line_flag()
+//                && (get_double_target_policy() != get_policy()) // Condition to check if neighbor policy = current pol
+//                && (get_random_num(50) == 1)) // Condition to decide if should randomly flip
+//        {
+//            sprintf(buffer,"Unique Target Detection. Random Int: %d \r\n", random_flip);
+//            WriteUART0(buffer);
+//
+//            set_policy(get_double_target_policy());
+//            set_double_target_flag(0);
+//
+//            set_target_flag(0); // turn off target flag
+//            set_secondary_target_flag(0); // turn off secondary tflag, if applicable
+//            GPIO_writeDio(BLED2,0); // turn off target LED
+//
+//            region_counter = 0; // reset region counter
+//        }
 
     //to reset if no new policy & completed at least one loop
     //accounts for communications since region_counter reset above first upon communication
-    if ((xcs == 0b110 || xcs == 0xC) && (region_counter >= 10) && !get_target_flag())
+    if ((xcs == 0xC) && (region_counter >= 9) && !get_target_flag()
+            && !get_actuation_flag() && get_on_line_flag())
     {
         set_policy(get_random_num(28)); // assign a random policy
         region_counter = 0; // reset counter
@@ -240,10 +269,12 @@ void inc_state()
         if (get_secondary_target_flag())
         {
             region_counter = 0;
-            set_secondary_target_flag(0);
+            flag_reset = 1;
+//            set_secondary_target_flag(0);
         }
 
-    if ((xcs == 0b110 || xcs == 0xC) && get_target_flag() && (region_counter >= 30)) // approx. 3 loops
+    if ((xcs == 0xC) && get_target_flag() && (region_counter >= 27)
+            && !get_actuation_flag() && get_on_line_flag()) // approx. 3 loops
     {
         set_policy(get_random_num(28)); // generate a new random policy
         set_target_flag(0); // turn off target flag
@@ -467,6 +498,26 @@ uint8_t get_neighbor_target_flag()
 void set_neighbor_target_flag(uint8_t flag)
 {
     state_track.neighbor_target_flag = flag;
+}
+
+//For cases where two bots have detected the target w/ different policies:
+void set_double_target_policy(uint8_t policy)
+{
+    state_track.double_target_policy = policy;
+}
+
+uint8_t get_double_target_policy()
+{
+    return state_track.double_target_policy;
+}
+
+uint8_t get_double_target_flag()
+{
+    return state_track.double_target_flag;
+}
+void set_double_target_flag(uint8_t flag)
+{
+    state_track.double_target_flag = flag;
 }
 
 void set_new_policy(uint8_t policy)

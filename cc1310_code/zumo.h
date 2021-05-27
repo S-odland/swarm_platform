@@ -43,7 +43,7 @@
 
 #define MOTOR_ON 200//seems like we need to limit based on bat (og 200, 160 good for 4 path, tested 120)
 #define S_LINE 180 // motor value for straight line driving (og 185, 160 good for 4 path, tested 120)
-#define MOTOR_TURN 265 // (og 275--)
+#define MOTOR_TURN 285 // 275 for normal bots, 285 for slow bots, (og 275--)
 
 #define MOTOR_OFF 0
 //#define MOTOR_TURN 64//64

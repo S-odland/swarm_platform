@@ -93,7 +93,7 @@ void detect_poi(uint32_t * vals, int choice)
 
     if (graphite.left_prev_vals_ave + graphite.right_prev_vals_ave > graphite.detect_thresh)
     {
-        GPIO_toggleDio(BLED0);
+//        GPIO_toggleDio(BLED0);
 
         for (i = 0; i < NUM_PREV_VALS; i++)
                     {
@@ -112,7 +112,7 @@ void detect_poi(uint32_t * vals, int choice)
         {
             set_detect_flag(1);
             WriteUART0("Gray Line Detected\r\n");
-//            GPIO_writeDio(BLED0,1);
+            GPIO_writeDio(BLED0,1);
 
 //            GPIO_toggleDio(BLED0);
             for (i = 0; i < NUM_PREV_VALS; i++)
