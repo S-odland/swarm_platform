@@ -249,6 +249,7 @@ class UI(QWidget):
 				self.data_sock.edge = 0 # in csv mode
 			else:
 				self.data_sock.edge = 1 # not in csv mode
+				current_read = self.data_sock.read()
 				
 			self.info_disp.setText("{}".format(self.find_bot()))
 			# print("Current CSV Flag: ", self.data_sock.csv_flag)
@@ -257,6 +258,10 @@ class UI(QWidget):
 		
 	def find_bot(self):
 		errorcount = 0
+		if (current_read is None):
+			print('None')
+			curr_read = 'None'
+			return
 		if (self.data_sock.edge == 0):
 			while (current_read[0] != self.curr_pack.mach_id):
 				time.sleep(0.002)
@@ -267,8 +272,11 @@ class UI(QWidget):
 		elif (self.data_sock.edge == 1):
 			self.data_sock.clean_putty()
 			time.sleep(0.002)
-			curr_read = self.data_sock.read()
+			curr_read = self.data_sock.read()	
 			print('This is the current read: ', curr_read)
+			while (curr_read is None):
+				print('No read')
+				curr_read = self.data_sock.read()
 			while (curr_read[0] != self.curr_pack.mach_id):
 				time.sleep(0.002)
 				errorcount +=1

@@ -49,7 +49,7 @@ class data_in():
 		# print("we're in the read function!")
 		print("this is mess: ", mess)
 		# print(len(mess))
-		if (len(mess) != 17 and len(mess) != 18 and len(mess) != 19):
+		if (len(mess) != 17 and len(mess) != 18 and len(mess) != 19 and len(mess) != 20 and len(mess) != 21):
 			print("Incorrect Message Length")
 			return
 
@@ -85,7 +85,7 @@ class data_in():
 		self.data_idx += 1
 
 		complete = np.append(id, new_state)
-		# print('State: ', complete)
+		print('State: ', complete)
 
 		return complete
 

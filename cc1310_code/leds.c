@@ -10,6 +10,8 @@
 #include "uart.h"
 #include <stdio.h>
 static uint8_t info_leds[4] = {BLED0, BLED1, BLED2, BLED3};
+//static uint8_t info_leds[7] = {BLED0, BLED1, BLED2, BLED3, BLED4, BLED5, BLED6};
+
 
 void setup_leds()
 {
