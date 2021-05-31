@@ -278,7 +278,10 @@ void inc_state()
     {
         set_policy(get_random_num(28)); // generate a new random policy
         set_target_flag(0); // turn off target flag
-        GPIO_writeDio(BLED2,0); // turn off target LED
+        GPIO_writeDio(BLED0,0); // turn off target LED
+        GPIO_writeDio(BLED1,0); // turn off target LED
+        GPIO_writeDio(BLED2,0); // turn off target LED (original)
+        GPIO_writeDio(BLED3,0); // turn off target LED
         region_counter = 0; // reset region counter
         set_secondary_target_flag(0); // redundant, probably
     }

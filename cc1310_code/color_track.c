@@ -32,7 +32,7 @@ void detect_xc(uint32_t * vals)
     {
        // GPIO_toggleDio(BLED1);
         set_intersection_flag(1);
-        GPIO_writeDio(BLED1,1);
+//        GPIO_writeDio(BLED1,1);
         WriteUART0("Intersection Detected\r\n");
     }
     return;
@@ -112,7 +112,7 @@ void detect_poi(uint32_t * vals, int choice)
         {
             set_detect_flag(1);
             WriteUART0("Gray Line Detected\r\n");
-            GPIO_writeDio(BLED0,1);
+//            GPIO_writeDio(BLED0,1);
 
 //            GPIO_toggleDio(BLED0);
             for (i = 0; i < NUM_PREV_VALS; i++)
@@ -241,7 +241,13 @@ void detect_all_mirror_target(uint32_t * vals)
         if (mirror.right_prev_vals_ave > ((mirror.detect_thresh)/2) && !get_intersection_flag())
         {
             WriteUART0("Target Detected\r\n");
-            GPIO_writeDio(BLED2,1);
+            GPIO_writeDio(BLED0,1);
+            GPIO_writeDio(BLED1,1);
+            GPIO_writeDio(BLED2,1); // original
+            GPIO_writeDio(BLED3,1);
+//            GPIO_writeDio(BLED4,1);
+//            GPIO_writeDio(BLED5,1);
+//            GPIO_writeDio(BLED6,1);
             set_target_flag(1);
             set_secondary_target_flag(1);
 //            GPIO_toggleDio(BLED0);
