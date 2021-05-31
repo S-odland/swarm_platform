@@ -226,14 +226,14 @@ void inc_state()
 
 
     //for when a neighbor has communicated their policy--COMMENT OUT FOR NO COMMUNICATION
-//    if ((xcs == 0b110 || xcs == 0xC) // NEW POLICY FROM BOTS -- ONLY ON 6 AND 12 -- COMMENTED ONE OUT IF ONLY WANT 12
-//            && get_neighbor_target_flag() && !get_ignore_pol_flag()
-//            && !get_actuation_flag() && get_on_line_flag())
-//    {
-//        set_policy(get_neighbor_target_policy());
-//        set_neighbor_target_flag(0);
-//        region_counter = 0; // reset region counter
-//    }
+    if ((xcs == 0b110 || xcs == 0xC) // NEW POLICY FROM BOTS -- ONLY ON 6 AND 12 -- COMMENTED ONE OUT IF ONLY WANT 12
+            && get_neighbor_target_flag() && !get_ignore_pol_flag()
+            && !get_actuation_flag() && get_on_line_flag())
+    {
+        set_policy(get_neighbor_target_policy());
+        set_neighbor_target_flag(0);
+        region_counter = 0; // reset region counter
+    }
 
     //case where two bots have detected the target w/ unique policies
 //    if ((xcs == 0b110 || xcs == 0xC) // ONLY ON 6 AND 12
