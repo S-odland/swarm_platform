@@ -266,7 +266,7 @@ class UI(QWidget):
 			while (current_read[0] != self.curr_pack.mach_id):
 				time.sleep(0.002)
 				errorcount +=1
-				if errorcount == 100:
+				if errorcount == 200:
 					return 'CSV but Bot not found'
 			curr_read = current_read		
 		elif (self.data_sock.edge == 1):
